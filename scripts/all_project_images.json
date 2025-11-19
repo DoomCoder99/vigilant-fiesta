@@ -1,0 +1,110 @@
+{
+  "note": "All project images with real Figma URLs. URLs expire after 7 days. Regenerate by running Figma MCP get_design_context.",
+  "generated_date": "2025-11-18",
+  "modules": {
+    "module3_service_booking": {
+      "home_maintenance_categories": {
+        "category_electrical.png": "https://www.figma.com/api/mcp/asset/6583c418-b283-443e-8a29-56809eb6e2a5",
+        "category_plumbing.png": "https://www.figma.com/api/mcp/asset/92d7eff3-62e0-4617-a0d3-6f1a2664a67e",
+        "category_carpentry.png": "https://www.figma.com/api/mcp/asset/387a3533-8372-4dcb-b918-6012612aff1f",
+        "category_light_fan.png": "https://www.figma.com/api/mcp/asset/47231e93-8457-40e4-b090-cdc643f2fce5",
+        "icon_close_small.png": "https://www.figma.com/api/mcp/asset/eb5ebf79-e5ef-4b77-94ce-4642824e4c10"
+      },
+      "electrical_services_screen": {
+        "service_switch_sockets.png": "https://www.figma.com/api/mcp/asset/94574188-a530-41d3-9fce-7202511d263a",
+        "service_doorbell_security.png": "https://www.figma.com/api/mcp/asset/f6564430-0107-4783-87a7-c11e99ad3f71",
+        "service_wiring.png": "https://www.figma.com/api/mcp/asset/7cd19b9f-5bb7-4365-ae7c-f74cffed1b51",
+        "service_light_fan.png": "https://www.figma.com/api/mcp/asset/1cf2249a-dafc-4e53-9748-df2c0ce4cdda",
+        "service_mcb_fuse.png": "https://www.figma.com/api/mcp/asset/759ce611-115c-4acf-bedf-5550d10dea7b",
+        "service_appliance_installation.png": "https://www.figma.com/api/mcp/asset/3b51998f-f9eb-4924-be0e-487c49c07e47",
+        "service_other_consultation.png": "https://www.figma.com/api/mcp/asset/a3536c12-be16-4844-9a83-69b9851e1e4a",
+        "banner_electrical_services.png": "https://www.figma.com/api/mcp/asset/06688393-f7b6-4129-b91d-51d2c1be912f",
+        "icon_menu.png": "https://www.figma.com/api/mcp/asset/279fa5e8-cf98-424c-983a-03afb906025f",
+        "icon_arrow_up.png": "https://www.figma.com/api/mcp/asset/8e1026e7-a305-4368-9a56-785d1e830fc2"
+      },
+      "service_detail_screen": {
+        "service_item_1_switch.png": "https://www.figma.com/api/mcp/asset/9dc9af0c-791e-45e1-bcd0-6126d707aee1",
+        "service_item_2_switches.png": "https://www.figma.com/api/mcp/asset/ca398626-d724-4478-9068-42765f3afa1c",
+        "service_item_more_switches.png": "https://www.figma.com/api/mcp/asset/7b0d11a9-10bc-49b3-828b-b7e8aa80c243",
+        "service_item_power_switch.png": "https://www.figma.com/api/mcp/asset/b8e79d8d-4c08-428f-b098-aa2e160c5b10",
+        "star_1.png": "https://www.figma.com/api/mcp/asset/1e3fe316-61e0-4bae-ad16-db71b5777ed1"
+      },
+      "addons_screen": {
+        "addon_legrand_single_pole.png": "https://www.figma.com/api/mcp/asset/c0a921a3-9190-455f-a767-b82bdfd2ed18",
+        "addon_legrand_double_pole.png": "https://www.figma.com/api/mcp/asset/9e46a11b-f256-407e-a600-ed8f87e6a295",
+        "addon_legrand_mylinc.png": "https://www.figma.com/api/mcp/asset/1f51f41b-bc3b-4822-ab15-c52cb59a0d69"
+      },
+      "common_icons": {
+        "icon_back_arrow.png": "https://www.figma.com/api/mcp/asset/c623aa18-94c5-40f2-88d7-605b5999c6f1",
+        "icon_filter.png": "https://www.figma.com/api/mcp/asset/1d4df773-354e-4360-ac53-ad17893d533d",
+        "amozit_verified_shield.png": "https://www.figma.com/api/mcp/asset/522e494e-6f89-4c73-8c67-f5360591f115"
+      }
+    },
+    "common_status_bar": {
+      "icon_bar_chart.png": "https://www.figma.com/api/mcp/asset/c5fe6bb9-fbd8-4b34-b9b4-3fac83408a69",
+      "icon_wifi.png": "https://www.figma.com/api/mcp/asset/717111c0-94ea-44ee-89fb-547c810a4e62",
+      "icon_battery_charging.png": "https://www.figma.com/api/mcp/asset/8f8e614f-bb1e-4e03-8a3d-9a25b741931f"
+    },
+    "common_address_form": {
+      "icon_location_on.png": "https://www.figma.com/api/mcp/asset/7a241b18-6efb-4817-84e1-dc83e4559dff",
+      "icon_mic.png": "https://www.figma.com/api/mcp/asset/be75e142-6ea4-4c76-ad5c-716a137dbb53",
+      "icon_home_address.png": "https://www.figma.com/api/mcp/asset/0c4a91aa-fe16-4d4e-acd4-d19e42219125",
+      "icon_work_address.png": "https://www.figma.com/api/mcp/asset/a0a2b6fe-ea62-45cd-968d-a409a2815ed3",
+      "icon_friends_address.png": "https://www.figma.com/api/mcp/asset/b94de00b-e021-4786-aab3-89dfdc6b0fba",
+      "icon_add_location.png": "https://www.figma.com/api/mcp/asset/8932026d-f76b-4370-9677-e2858522b487"
+    },
+    "module3_add_location": {
+      "map_farwaniyah.png": "https://www.figma.com/api/mcp/asset/5cbf1bca-5a3d-45bf-a2af-143552ea12c9",
+      "icon_my_location.png": "https://www.figma.com/api/mcp/asset/592d6436-1f8d-4116-80dc-9e94a31c5893",
+      "icon_search.png": "https://www.figma.com/api/mcp/asset/c05b214a-cbb5-4582-8b01-a58908dfc151",
+      "icon_close_small.png": "https://www.figma.com/api/mcp/asset/d4aabfcb-70f5-4fbd-8b9e-04d2d0430c8b",
+      "icon_location_pin.png": "https://www.figma.com/api/mcp/asset/f066a0ef-fefd-4514-9995-24347554a4f9",
+      "pin_ellipse_outer.png": "https://www.figma.com/api/mcp/asset/db5261ef-a290-4901-a71b-55736aa49f60",
+      "pin_ellipse_inner.png": "https://www.figma.com/api/mcp/asset/860ca0ab-6823-49b9-ac15-a6235a1be3a2",
+      "pin_subtract.png": "https://www.figma.com/api/mcp/asset/20510fc7-58b1-481c-ad9f-6c17e2ac12fc",
+      "icon_arrow_left.png": "https://www.figma.com/api/mcp/asset/27cbd2b9-7af1-4573-b994-ebcbc6e6d779",
+      "icon_discover_tune.png": "https://www.figma.com/api/mcp/asset/3b3324dd-875b-46a6-9e2e-cf8d0319bc08"
+    },
+    "module3_add_address": {
+      "icon_mic.png": "https://www.figma.com/api/mcp/asset/eb10c199-5c44-426e-9fc8-df0325bb0b75",
+      "icon_home.png": "https://www.figma.com/api/mcp/asset/ab7f1247-d040-4c97-a3ba-81bde5db247c",
+      "icon_business_center.png": "https://www.figma.com/api/mcp/asset/c69a40de-1080-489b-86de-cc0874575587",
+      "icon_groups.png": "https://www.figma.com/api/mcp/asset/8205817c-78e8-4bc1-8ce1-bb4e3bf8a90f",
+      "icon_add_location_alt.png": "https://www.figma.com/api/mcp/asset/e0b956fd-901f-4c3d-8a92-15c70f195620",
+      "icon_location_on.png": "https://www.figma.com/api/mcp/asset/0120b7fe-b372-4d02-9fe8-2373fa547b03",
+      "icon_arrow_left.png": "https://www.figma.com/api/mcp/asset/df70d83d-89c5-4163-a73a-918a78186f26",
+      "icon_discover_tune.png": "https://www.figma.com/api/mcp/asset/065a9368-93e2-4854-9359-eabbb1aced6a"
+    },
+    "module3_add_address_confirmation": {
+      "icon_location_on.png": "https://www.figma.com/api/mcp/asset/7ae851bb-b214-4e7b-94af-69e5d3ce2545",
+      "icon_mic.png": "https://www.figma.com/api/mcp/asset/52d509c6-9c22-4d75-8eb8-75fa34ef2882",
+      "icon_home.png": "https://www.figma.com/api/mcp/asset/a2a23536-e2ec-48bc-bb15-076d43124070",
+      "icon_business_center.png": "https://www.figma.com/api/mcp/asset/c54b86c6-b6a8-4c94-a869-85190510c36d",
+      "icon_groups.png": "https://www.figma.com/api/mcp/asset/0f41150a-b8c7-4c62-88b3-eaa92d16a7cd",
+      "icon_add_location_alt.png": "https://www.figma.com/api/mcp/asset/665293d0-8f23-46ee-af56-4f27e0544e30",
+      "icon_close_small.png": "https://www.figma.com/api/mcp/asset/8da5d74a-4a07-41f6-a120-4bd631bbef4a",
+      "icon_bolt.png": "https://www.figma.com/api/mcp/asset/78905828-2076-4583-b8e3-1c23cf99f1d5",
+      "icon_radio_unchecked.png": "https://www.figma.com/api/mcp/asset/1b71575b-1e31-40ed-8b7d-780a086b86f8",
+      "icon_calendar_clock.png": "https://www.figma.com/api/mcp/asset/ade2625a-7518-49be-9654-4452386717ac",
+      "icon_radio_checked.png": "https://www.figma.com/api/mcp/asset/bb475406-e52f-4789-8414-c4e5a143057c",
+      "icon_chevron_forward.png": "https://www.figma.com/api/mcp/asset/c6401dea-a4d8-4489-bcea-e631f84c04f5",
+      "icon_arrow_left.png": "https://www.figma.com/api/mcp/asset/4d275594-816c-4266-aa9b-16236dd15cd0",
+      "icon_discover_tune.png": "https://www.figma.com/api/mcp/asset/a1cbe3cc-d6cc-474a-a32a-ca1905deb05c"
+    },
+    "module3_payment_cart": {
+      "icon_add.png": "https://www.figma.com/api/mcp/asset/05f995d9-9384-42fe-a851-90377eaae36c"
+    },
+    "module3_payment_method": {
+      "payment_card_icon.png": "https://www.figma.com/api/mcp/asset/eba0ddb6-9dd4-438f-be72-07bffe15b4ef",
+      "payment_amazon_pay.png": "https://www.figma.com/api/mcp/asset/b0ae32d6-0597-4266-892b-1cf4b151eae7",
+      "payment_bank_icon.png": "https://www.figma.com/api/mcp/asset/0a0db9c3-b98b-4de4-af58-e8b1a3977b12",
+      "payment_cash_icon.png": "https://www.figma.com/api/mcp/asset/cb31c50f-bad2-4504-9c41-4e40e2fd068b",
+      "payment_mastercard_logo.png": "https://www.figma.com/api/mcp/asset/fd5f5060-d3e5-46e3-bf08-aeb73d22c450",
+      "icon_checkbox.png": "https://www.figma.com/api/mcp/asset/e7b36fcb-94d2-4b0d-bceb-85301fbaf33a"
+    },
+    "module3_payment_success": {
+      "success_illustration_main.png": "https://www.figma.com/api/mcp/asset/d6691caa-36ad-46c1-8d5a-f6cf77edde84"
+    }
+  }
+}
+

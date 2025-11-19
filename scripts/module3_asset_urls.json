@@ -1,0 +1,34 @@
+{
+  "note": "Module 3: Service Booking - Category and Service Selection Assets. URLs expire after 7 days. Regenerate by running Figma MCP get_design_context.",
+  "assets": {
+    "category_icons": {
+      "category_electrical.png": "https://www.figma.com/api/mcp/asset/0b2a347e-20d7-412b-bb63-af6321a4ca16",
+      "category_plumbing.png": "https://www.figma.com/api/mcp/asset/410de3dc-622e-42fa-81e1-1f39efc78d35",
+      "category_carpentry.png": "https://www.figma.com/api/mcp/asset/fe6445a4-8695-418b-a6d0-b2a210b140eb",
+      "category_light_fan.png": "https://www.figma.com/api/mcp/asset/721d071a-1ca8-46f7-a399-1e9e387e44e9"
+    },
+    "service_icons": {
+      "service_switch_sockets.png": "https://www.figma.com/api/mcp/asset/ff2fbefa-3fef-4ff1-8d81-074e19f0891f",
+      "service_doorbell_security.png": "https://www.figma.com/api/mcp/asset/6bf88acb-74c3-4def-8222-62947d3272fb",
+      "service_wiring.png": "https://www.figma.com/api/mcp/asset/da19eb67-7c76-4bc6-a4dc-e1114d41f731",
+      "service_light_fan.png": "https://www.figma.com/api/mcp/asset/9078e801-f12d-4d64-97a9-53cc57f6703d",
+      "service_mcb_fuse.png": "https://www.figma.com/api/mcp/asset/110a85ec-490a-43c7-9b44-25012658061f",
+      "service_appliance_installation.png": "https://www.figma.com/api/mcp/asset/830d5e3d-f6ec-4cb5-8959-03dfbb8478af",
+      "service_other_consultation.png": "https://www.figma.com/api/mcp/asset/678aa58f-cb16-4148-89d4-81f25ab7660f"
+    },
+    "ui_icons": {
+      "icon_close_small.png": "https://www.figma.com/api/mcp/asset/509e3393-cc22-49d3-8a4e-6521f503a0bf",
+      "icon_arrow_up.png": "https://www.figma.com/api/mcp/asset/518e6260-8372-4615-8591-465dfa0dc855",
+      "icon_menu.png": "https://www.figma.com/api/mcp/asset/bc7fb617-1071-4556-967d-9311c9891278",
+      "icon_filter.png": "https://www.figma.com/api/mcp/asset/3b17bf0e-b48e-455b-9d2f-bed7c94c9d5c"
+    },
+    "banner_images": {
+      "banner_electrical_services.png": "https://www.figma.com/api/mcp/asset/f7405eb5-53e0-472b-b21d-00bfffe15bf7"
+    },
+    "decorative_elements": {
+      "decoration_ellipse_1.png": "https://www.figma.com/api/mcp/asset/11668ee4-707f-4a5e-bdba-95bef08da7f0",
+      "decoration_ellipse_2.png": "https://www.figma.com/api/mcp/asset/58bc24fc-5e1c-4f36-b96b-a1faac8145c2"
+    }
+  }
+}
+

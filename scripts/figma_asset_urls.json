@@ -1,0 +1,57 @@
+{
+  "note": "These URLs are temporary and expire after 7 days. Regenerate by running Figma MCP get_design_context.",
+  "last_updated": "2024-12-19",
+  "assets": {
+    "navigation_icons": {
+      "icon_home.png": "https://www.figma.com/api/mcp/asset/50a18f99-ca1b-4b3d-8268-d976799d7463",
+      "icon_shop.png": "https://www.figma.com/api/mcp/asset/a2a39bd3-7876-4a7e-bb26-ad82b99ce67b",
+      "icon_orders.png": "https://www.figma.com/api/mcp/asset/4c6e33af-e46d-4b3a-8146-99fa3f052ebe",
+      "icon_cart.png": "https://www.figma.com/api/mcp/asset/57741bdf-9bc7-47d2-ba87-805e250bd1b3"
+    },
+    "app_bar_icons": {
+      "icon_back_arrow.png": "https://www.figma.com/api/mcp/asset/b38d0cb7-2a3c-4e62-a8f1-664b2ee4753e",
+      "icon_search.png": "https://www.figma.com/api/mcp/asset/9e1d88aa-dce2-435a-928c-85c8ea722d9b",
+      "icon_content_copy.png": "https://www.figma.com/api/mcp/asset/72963253-e6d6-4e3c-ae41-8b77caad7125",
+      "icon_share.png": "https://www.figma.com/api/mcp/asset/ad1ffd90-d082-42fe-a461-0490a8ef383e"
+    },
+    "status_bar_icons": {
+      "status_bar_chart.png": "https://www.figma.com/api/mcp/asset/0ace0efb-3af7-4356-98f5-bb95138e8031",
+      "status_wifi.png": "https://www.figma.com/api/mcp/asset/206656b6-dff5-46da-bbf6-bb1adab432b7",
+      "status_battery.png": "https://www.figma.com/api/mcp/asset/5de07f24-a4c8-4487-8ae6-146a708a8daf"
+    },
+    "product_images": {
+      "product_image_9.png": "https://www.figma.com/api/mcp/asset/d79a021a-752b-4249-aaea-a183aa5cbea9",
+      "product_image_10.png": "https://www.figma.com/api/mcp/asset/7ec98530-4436-42dc-917c-ae1951ea8f81",
+      "product_image_11.png": "https://www.figma.com/api/mcp/asset/5bcaf413-e0d2-470a-a13b-20a9bf086c61",
+      "product_image_12.png": "https://www.figma.com/api/mcp/asset/fc5580c2-5ce8-4a61-b6b1-49ce1a65c82a",
+      "product_image_13.png": "https://www.figma.com/api/mcp/asset/966fa4c4-4bc5-4bdf-b5d4-4b3b762b5235",
+      "product_image_14.png": "https://www.figma.com/api/mcp/asset/0853e6f1-5cec-4a6f-81fd-a74289f607a4",
+      "product_image_15.png": "https://www.figma.com/api/mcp/asset/54b71cf3-2548-433f-9510-d29d65bf5997",
+      "product_image_16.png": "https://www.figma.com/api/mcp/asset/10c55f7c-b100-4756-9ba6-709be266d581"
+    },
+    "category_frames": {
+      "category_frame_1.png": "https://www.figma.com/api/mcp/asset/89533dca-8efe-470e-9e85-4f24dddc909a",
+      "category_frame_2.png": "https://www.figma.com/api/mcp/asset/33fb7e50-bc41-4f89-9abd-2b891dfd128e",
+      "category_frame_3.png": "https://www.figma.com/api/mcp/asset/cd24fe3e-6fae-4019-bfb2-ec3d524dd6c7",
+      "category_frame_4.png": "https://www.figma.com/api/mcp/asset/a1b8205c-d3ef-403b-97a2-83f03eaa2276",
+      "category_frame_5.png": "https://www.figma.com/api/mcp/asset/7ad64bb6-9c1e-4871-b8a1-463de6cd80b1",
+      "category_frame_6.png": "https://www.figma.com/api/mcp/asset/6c2495c3-cb0d-46cc-bca6-ad14c11d49f4",
+      "category_frame_7.png": "https://www.figma.com/api/mcp/asset/279e35f4-d92a-4ce5-9ad7-aa68c0d2854f",
+      "category_frame_8.png": "https://www.figma.com/api/mcp/asset/74285439-af5d-4e46-be53-17996107c30c",
+      "category_frame_9.png": "https://www.figma.com/api/mcp/asset/5b95c9fb-fb54-4ab9-b916-3ea90b40ad40"
+    },
+    "promotional_images": {
+      "promo_female_lawyer.png": "https://www.figma.com/api/mcp/asset/6f6eabe5-5431-4f61-83f9-e876ac7537fa",
+      "promo_rectangle_26.png": "https://www.figma.com/api/mcp/asset/b6dee244-899c-4212-b38a-54ac8b2da541",
+      "promo_image_removebg.png": "https://www.figma.com/api/mcp/asset/c6b06559-afb3-4dc5-9aa4-d601c7a5ab08"
+    },
+    "ui_elements": {
+      "ellipse_1293.png": "https://www.figma.com/api/mcp/asset/9c7ab7ba-96a1-444a-bcb2-3e08e34d72cb",
+      "ellipse_1294.png": "https://www.figma.com/api/mcp/asset/305d2616-b566-4ead-ba5d-5e6a64c1688f",
+      "ellipse_1.png": "https://www.figma.com/api/mcp/asset/c3e93eed-3ea0-4078-8fa0-7eeaf5f462bc",
+      "star_1.png": "https://www.figma.com/api/mcp/asset/c5a9bc7f-1db9-46c4-b8ea-e3a7554efc55",
+      "ellipse_3.png": "https://www.figma.com/api/mcp/asset/030222e2-6aba-44b1-9b14-96e26e233aef"
+    }
+  }
+}
+

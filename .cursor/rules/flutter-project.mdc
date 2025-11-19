@@ -1,0 +1,425 @@
+---
+alwaysApply: true
+---
+---
+description: Project-wide rules for Figma → Flutter hybrid mobile app using WDI standards
+globs: "**/*"
+---
+
+# 1. Scope
+
+These rules apply to this **Flutter hybrid mobile app** project inside Cursor.  
+They are consumed by Cursor’s project rules system and are specific to **this repo only**.
+
+- The **agent behavior** is defined in `agent.md`.
+- This file defines **project-scoped constraints**:
+  - Where to find coding standards and design system mappings
+  - How to use Figma MCP in this project
+  - How to structure Flutter code and assets
+  - What quality checks and CI/CD expectations exist
+
+---
+
+# 2. WDI Flutter Coding Standards Integration
+
+1. The canonical WDI Flutter coding standards are stored as:
+
+   - `docs/WDI_Flutter_Coding_Standard_Guide.txt`  
+     (or update this path if different)
+
+2. The project rules are:
+
+   - Always follow the WDI Flutter coding standards exactly.
+   - Do **not**:
+     - invent new naming or folder structures,
+     - introduce alternate state managers or patterns,
+     - override WDI-defined error-handling or API patterns,
+     unless the WDI guide itself allows such variations.
+
+3. For any generated code:
+
+   - Ensure file structure, class names, and patterns all conform to the WDI guide.
+   - If local repo code violates WDI, highlight it in comments and prefer the standard.
+
+> NOTE FOR MAINTAINERS:  
+> Paste the **exact contents** of `WDI_Flutter_Coding_Standard_Guide.txt` in a dedicated project doc (e.g. `docs/wdi_flutter_standard.md`) and keep this section pointing to that file. Do not rewrite or paraphrase it here.
+
+---
+
+# 3. Figma MCP Usage in This Project
+
+The agent must use Figma MCP as the **single source of design truth**.
+
+## 3.1 One-Time (Project-Level)
+
+- At project setup (or when Figma files change significantly), run:
+
+  1. `create_design_system_rules`
+     - Map Figma design tokens to Flutter:
+       - Colors → `lib/core/theme/colors.dart` (or as defined by WDI)
+       - Text styles → `lib/core/theme/typography.dart`
+       - Spacing, radii, shadows → `lib/core/theme/layout.dart` or equivalent
+     - Store mappings in code as named constants/types, not comments.
+
+- Document the outputs of `create_design_system_rules` in:
+  - `docs/design_system_mapping.md` (for humans)
+  - And the corresponding Dart files (for code).
+
+## 3.2 Per Screen (Implementation Loop)
+
+For **each Figma screen/frame** implemented in this project:
+
+1. **Get screenshot**
+   - Use `get_screenshot` to fetch a raster preview.
+   - Use as visual reference inside PRs and manual review.
+
+2. **Get metadata**
+   - Use `get_metadata` to obtain frame name, IDs, sizing mode, layout direction.
+   - Create or update a **route mapping** entry:
+     - e.g. `lib/core/routes/app_routes.dart`  
+       mapping Figma frame name → Flutter route name.
+
+3. **Get design context**
+   - Use `get_design_context` to fetch:
+     - Parent containers
+     - Child hierarchy
+     - Auto-layout configuration
+   - Use this hierarchy as the blueprint for:
+     - Widget decomposition
+     - `Row`/`Column`/`Stack` usage
+     - Lists and scrollable areas
+
+4. **Get variable definitions**
+   - Use `get_variable_defs` to get all tokens used on this screen:
+     - Colors, text styles, spacings, radii, shadows.
+   - Check:
+     - Every token has a matching entry in the Flutter design system code.
+     - If not, propose and add an appropriate mapping in the design system layer (never inline ad-hoc values).
+
+5. **Get code connect map**
+   - Use `get_code_connect_map` to:
+     - Identify reusable components tied to code,
+     - Understand component props and data.
+   - Map these to:
+     - Reusable widgets under your WDI-defined folder structure,
+     - View models / controllers / blocs as mandated by WDI.
+
+> Rule: **All five** MCP functions must be used for each screen before code generation for that screen is considered complete.
+
+---
+
+# 4. Design Variables & Quality Checks
+
+Before merging or finalizing any UI implementation, perform these checks:
+
+## 4.1 Design Variable Coverage
+
+For each implemented screen, verify:
+
+- **Images & icons**
+  - All image layers in Figma exist as exported assets in `assets/` and are referenced in `pubspec.yaml`.
+  - Resolution/density: exports at required scales (1x / 2x / 3x) based on design guidelines.
+
+- **Fonts & text styles**
+  - Each Figma text style is mapped to a Dart `TextStyle` (or equivalent) and reused across widgets.
+  - No arbitrary inline font families or sizes that contradict the design tokens.
+
+- **Colors**
+  - Hex values match Figma exactly.
+  - All colors referenced by `get_variable_defs` for the screen appear as constants or in the theme.
+
+- **Spacing & dimensions**
+  - Spacing between elements matches Figma within ±2dp.
+  - Container widths/heights and paddings reflect Figma constraints.
+
+- **Layers & hierarchy**
+  - Z-order (what appears on top) is preserved via `Stack`, overlays, dialogs, etc.
+  - Overlays such as modals, sheets, and tooltips match the design.
+
+If any of the above is missing or diverging from Figma:
+
+- Add comments explaining why (e.g., platform limitations or responsive adjustments).
+- Prefer to fix and re-run the check automatically before considering the screen “done”.
+
+## 4.2 Interaction & Navigation Check
+
+- Every interactive design element in the Figma prototype:
+  - Has a corresponding Flutter widget with an interaction handler (`onTap`, `onPressed`, etc.).
+  - Navigates to the correct route or triggers the correct state.
+- For not-yet-implemented screens:
+  - Provide temporary routes or stubs with clearly marked TODO comments.
+
+---
+
+# 5. Flutter Project Structure & Tooling (WDI Aligned)
+
+> ⚠️ The exact folder structure, naming, and architecture (e.g. GetX, Bloc, etc.) must come from `WDI_Flutter_Coding_Standard_Guide.txt`.  
+> The rules below only state **how to respect and enforce whatever WDI defines.**
+
+1. **Folder Structure**
+   - Use the folder layout defined in the WDI guide.
+   - When adding new modules, services, or widgets:
+     - Place them in the correct feature/module folder as per WDI.
+     - Keep separation of concerns (data, domain, presentation) exactly as defined.
+
+2. **State Management**
+   - Use the state management approach mandated by WDI (e.g. GetX, Bloc).
+   - Do not mix alternative patterns within the same module unless explicitly allowed.
+
+3. **Networking & APIs**
+   - All HTTP calls must follow WDI’s API layer pattern:
+     - Shared API client/service.
+     - Typed models for requests and responses.
+     - Centralized error handling pattern.
+
+4. **Testing**
+   - Minimum tests:
+     - Widget tests for each screen.
+     - Unit tests for controllers / blocs / services that handle logic.
+   - Follow WDI’s testing standards for naming and coverage thresholds.
+
+---
+
+# 6. CI/CD & Branching Expectations
+
+1. **Git Branch**
+   - Use the project’s default main branch (e.g. `main` or `develop`) as the CI target.
+   - Follow the branching strategy defined by the team.
+
+2. **CI Pipeline Expectations**
+   - Any CI pipeline must at minimum:
+     - Use Flutter **stable** channel.
+     - Run:
+       - `flutter pub get`
+       - `flutter format --set-exit-if-changed .`
+       - `flutter analyze`
+       - `flutter test`
+       - Build release artifacts (APK/AAB; iOS archive where applicable).
+
+3. **Gate**
+   - CI must fail on:
+     - Formatting issues
+     - Analyzer warnings/errors
+     - Failing tests
+     - Build failures
+   - No merges to the target branch when CI fails.
+
+---
+
+# 7. How to Extend These Project Rules
+
+- Keep this rule file under **500 lines**.
+- If additional concerns are added (e.g. analytics, feature flags, offline support), **split** them into separate `.mdc` rule files:
+  - e.g. `.cursor/rules/analytics.mdc`, `.cursor/rules/offline.mdc`.
+- When extending:
+  - Be focused and actionable.
+  - Refer to concrete files, folders, or functions, not vague ideas.
+  - Reuse shared concepts (design system mapping, Figma MCP commands, WDI guide) instead of redefining them.
+
+---
+
+# 8. WDI Standards Anchor
+
+This project assumes the presence of the WDI Flutter coding standard document:
+
+WDI Flutter Coding Standard Guide (GetX & Bloc)
+1. Project Folder Structure
+a. GetX Architecture - Best for Animation and Small to Mid Size Projects.
+lib/
+│
+├── main.dart
+├── core/
+│ ├── constants/
+│ ├── utils/
+│ ├── theme/
+│ └── routes/
+│
+├── data/
+│ ├── models/
+│ ├── services/
+│ └── repository/
+│
+├── modules/
+│ ├── home/
+│ │ ├── controller/
+│ │ ├── view/
+│ │ └── widgets/
+│ └── profile/
+│
+├── controller/
+│
+├── view/
+│
+└── widgets/
+│
+└── widgets/
+└── common/
+
+OR
+b. Bloc Architecture - Best for Mid to Enterprise Size Projects.
+lib/
+│
+├── main.dart
+├── core/
+│ ├── constants/
+│ ├── utils/
+│ ├── theme/
+│ └── routes/
+│
+├── data/
+│ ├── models/
+│ ├── repository/
+│ └── services/
+│
+├── presentation/
+│ ├── screens/
+│ │ ├── home/
+│ │ │ ├── bloc/
+│ │ │ ├── view/
+│ │ │ └── widgets/
+│ │ └── profile/
+│ │
+├── bloc/
+│ │
+├── view/
+│ │
+└── widgets/
+│ └── widgets/
+└── main.dart
+
+2. Naming Conventions
+- Classes → PascalCase (e.g., UserModel, HomeController)
+- Variables → camelCase (e.g., userName, selectedDate)
+- Constants → SCREAMING_SNAKE_CASE
+- Files → snake_case.dart
+- Enums → PascalCase with values in camelCase
+
+3. API Setup (with Enum & Shared Function)
+enum ApiType { get, post, put, delete }
+class ApiService {
+static const String baseUrl = "https://api.example.com/";
+static Future<dynamic> callApi({
+required String endpoint,
+required ApiType type,
+Map<String, dynamic>? body,
+Map<String, String>? headers,
+}) async {
+try {
+final url = Uri.parse('$baseUrl$endpoint');
+http.Response response;
+switch (type) {
+case ApiType.get:
+response = await http.get(url, headers: headers);
+break;
+case ApiType.post:
+response = await http.post(url, headers: headers, body: jsonEncode(body));
+break;
+case ApiType.put:
+response = await http.put(url, headers: headers, body: jsonEncode(body));
+break;
+case ApiType.delete:
+response = await http.delete(url, headers: headers);
+break;
+}
+if (response.statusCode == 200) {
+return jsonDecode(response.body);
+} else {
+throw Exception('Error: ${response.statusCode}');
+}
+} catch (e) {
+rethrow;
+}
+}
+}
+
+4. GetX Example
+class UserController extends GetxController {
+var users = [].obs;
+var isLoading = false.obs;
+Future<void> fetchUsers() async {
+isLoading(true);
+final response = await ApiService.callApi(
+endpoint: 'users',
+type: ApiType.get,
+);
+users.assignAll(response['data']);
+isLoading(false);
+}
+}
+
+5. Bloc Example
+class UserBloc extends Bloc<UserEvent, UserState> {
+UserBloc() : super(UserInitial()) {
+on<FetchUsersEvent>((event, emit) async {
+emit(UserLoading());
+try {
+final response = await ApiService.callApi(
+endpoint: 'users',
+type: ApiType.get,
+);
+emit(UserLoaded(response['data']));
+} catch (e) {
+emit(UserError(e.toString()));
+}
+});
+}
+}
+
+6. Code Style & Best Practices
+- Avoid business logic inside UI
+- Use const constructors when possible
+- Keep widget trees clean
+- Add documentation comments for all classes and functions in (ReadMe.) file.
+- Handle errors gracefully
+- Maintain consistent spacing and indentation
+
+7. Example of API Response Model
+class ApiResponse<T> {
+final bool success;
+final String? message;
+final T? data;
+ApiResponse({required this.success, this.message, this.data});
+factory ApiResponse.fromJson(Map<String, dynamic> json, T Function(dynamic)
+fromJsonT) {
+return ApiResponse(
+success: json['success'] ?? false,
+message: json['message'],
+data: json['data'] != null ? fromJsonT(json['data']) : null,
+);
+}
+}
+
+8. Error Handling
+- Centralize error logging
+- Show appropriate user messages
+- Use enums for error types (network, timeout, auth, etc.)
+
+9. Reusable Widget Example
+class CustomButton extends StatelessWidget {
+final String title;
+final VoidCallback onTap;
+final bool loading;
+const CustomButton({
+super.key,
+required this.title,
+required this.onTap,
+this.loading = false,
+});
+@override
+Widget build(BuildContext context) {
+return ElevatedButton(
+onPressed: loading ? null : onTap,
+child: loading
+? const CircularProgressIndicator()
+: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+);
+}
+}
+
+Developers and the AI agent must:
+
+- Treat that file as the **single source of truth** for all Flutter-specific conventions.
+- Avoid defining competing or alternative “WDI-like” standards in code or prompts.
+
+> MAINTAINER ACTION:  
+> Ensure the latest version of `WDI_Flutter_Coding_Standard_Guide.txt` is checked into the repo and kept in sync with WDI’s canonical copy.
