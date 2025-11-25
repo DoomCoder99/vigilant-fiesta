@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 /// Handles app translations for English and Arabic.
 /// Uses GetX Translations with JSON files.
 class LocalizationService extends Translations {
-  static const String _translationsPath = 'assets/translations/';
+  static const String _translationsPath = 'assets/translations';
   
   // Translation maps
   static Map<String, String> _enJson = {};

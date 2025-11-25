@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
@@ -6,16 +9,28 @@ import '../../../../core/theme/typography.dart';
 import '../../../../core/widgets/bottom_navigation_bar.dart';
 import '../../../../core/utils/asset_helper.dart';
 import '../../../../core/utils/asset_helper.dart' as assets;
+import 'menu_all_categories_screen.dart';
 
 /// Shop Landing Screen
 /// 
 /// Main shop screen displaying categories and featured products.
 /// Design Source: Figma frame "Shop landing" (node-id: 1-2906)
-class ShopLandingScreen extends StatelessWidget {
+class ShopLandingScreen extends StatefulWidget {
   const ShopLandingScreen({super.key});
 
   @override
+  State<ShopLandingScreen> createState() => _ShopLandingScreenState();
+}
+
+class _ShopLandingScreenState extends State<ShopLandingScreen> {
+  int _currentBannerIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
+    return _buildShopLanding(context);
+  }
+
+  Widget _buildShopLanding(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
       appBar: AppBar(
@@ -85,25 +100,60 @@ class ShopLandingScreen extends StatelessWidget {
   }
 
   Widget _buildBanner(BuildContext context) {
+    // Banner data with 3-4 images and separate text
+    final banners = [
+      {
+        'title': 'Services starting from OMR 9.99',
+        'subtitle': 'Verified professionals, book at your preferred time slot.',
+        'buttonText': 'Book Now',
+        'bgColor': const Color(0xFF7132F4), // Primary purple
+      },
+      {
+        'title': 'Your new music companion!',
+        'subtitle': 'Check the Bluetooth speaker range from Maestro.',
+        'buttonText': 'Explore',
+        'bgColor': const Color(0xFF1E88E5), // Blue for music banner
+      },
+      {
+        'title': 'Premium car care',
+        'subtitle': 'near you, 24x7, Pick up & drop',
+        'buttonText': 'Book Now',
+        'bgColor': const Color(0xFF7132F4),
+      },
+      {
+        'title': 'Get 20% off on your first consultation',
+        'subtitle': 'Book now and save big on your first service',
+        'buttonText': 'Shop Now',
+        'bgColor': const Color(0xFFD5B591),
+      },
+    ];
+
     return SizedBox(
       height: 180,
-      child: PageView(
-        children: [
-          // Banner 1: Services
-          _buildBannerItem(
-            'Services starting from OMR 9.99',
-            'Verified professionals, book at your preferred time slot.',
-            'Book Now',
-            const Color(0xFF7132F4), // Primary purple
-          ),
-          // Banner 2: Music Companion
-          _buildBannerItem(
-            'Your new music companion!',
-            'Check the Bluetooth speaker range from Maestro.',
-            'Explore',
-            const Color(0xFF1E88E5), // Blue for music banner
-          ),
-        ],
+      child: CarouselSlider.builder(
+        itemCount: banners.length,
+        itemBuilder: (context, index, realIndex) {
+          final banner = banners[index];
+          return _buildBannerItem(
+            banner['title'] as String,
+            banner['subtitle'] as String,
+            banner['buttonText'] as String,
+            banner['bgColor'] as Color,
+          );
+        },
+        options: CarouselOptions(
+          height: 180,
+          viewportFraction: 1.0,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 4),
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          onPageChanged: (index, reason) {
+            setState(() {
+              _currentBannerIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
@@ -196,44 +246,7 @@ class ShopLandingScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Pagination dots
-          Positioned(
-            bottom: AppSpacing.lg,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 4,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Container(
-                  width: 20,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                ...List.generate(3, (index) => Container(
-                  width: 4,
-                  height: 4,
-                  margin: const EdgeInsets.only(right: AppSpacing.sm),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                  ),
-                )),
-              ],
-            ),
-          ),
+          // Pagination dots - will be handled by CarouselSlider
         ],
       ),
     );
@@ -255,7 +268,12 @@ class ShopLandingScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.menuAllCategories);
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  isScrollControlled: true,
+                  builder: (context) => MenuAllCategoriesScreen(),
+                );
               },
               child: Text(
                 'View All',
@@ -570,6 +588,10 @@ class ShopLandingScreen extends StatelessWidget {
   }
 
   Widget _buildReferAndEarn() {
+    const referralCode = '#0233444';
+    const referralUrl = 'www.amozit.com/referral/483BBJ78xh64';
+    const fullReferralText = '$referralUrl $referralCode';
+
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xxxxl),
       decoration: BoxDecoration(
@@ -606,7 +628,7 @@ class ShopLandingScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'www.amozit.com/referral/483BBJ78xh64',
+                    fullReferralText,
                     style: AppTextStyles.bodySmall,
                   ),
                 ),
@@ -614,14 +636,27 @@ class ShopLandingScreen extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   icon: const Icon(Icons.content_copy, size: 16),
-                  onPressed: () {},
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: fullReferralText));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Referral code copied to clipboard'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              await Share.share(
+                'Check out AMOZIT! Use my referral code $referralCode: $referralUrl',
+                subject: 'AMOZIT Referral',
+              );
+            },
             icon: const Icon(Icons.share, size: 12),
             label: Text(
               'share with friends',
@@ -645,6 +680,7 @@ class ShopLandingScreen extends StatelessWidget {
       currentIndex: 1, // Shop is selected
       onTap: (index) {
         // Navigation handled by AppBottomNavigationBar
+        // Master navigation will handle route switching
       },
     );
   }

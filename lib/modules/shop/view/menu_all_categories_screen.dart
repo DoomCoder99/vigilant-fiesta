@@ -115,19 +115,13 @@ class MenuAllCategoriesScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pop();
-        // Show sub-categories for Electronic devices, otherwise go to category listing
-        if (name == 'Electronic devices') {
-          showModalBottomSheet(
-            context: context,
-            backgroundColor: Colors.transparent,
-            builder: (context) => MenuAllSubCategoriesScreen(categoryName: name),
-          );
-        } else {
-          Navigator.of(context).pushNamed(
-            AppRoutes.categoryListing,
-            arguments: {'categoryName': name},
-          );
-        }
+        // Show sub-categories for all categories (as per requirement)
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+          builder: (context) => MenuAllSubCategoriesScreen(categoryName: name),
+        );
       },
       child: SizedBox(
         width: 64,

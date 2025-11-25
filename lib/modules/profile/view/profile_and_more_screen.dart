@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
@@ -308,7 +310,7 @@ class ProfileAndMoreScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            'www.amozit.com/referral/483BBJ78xh64',
+                            'www.amozit.com/referral/483BBJ78xh64 #0233444',
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.textPrimary.withOpacity(0.5),
                             ),
@@ -324,7 +326,8 @@ class ProfileAndMoreScreen extends StatelessWidget {
                             },
                           ),
                           onPressed: () {
-                            // TODO: Copy to clipboard
+                            const referralText = 'www.amozit.com/referral/483BBJ78xh64 #0233444';
+                            Clipboard.setData(const ClipboardData(text: referralText));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('referral_link_copied'.tr)),
                             );
@@ -338,8 +341,13 @@ class ProfileAndMoreScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Implement share functionality
+                      onPressed: () async {
+                        const referralCode = '#0233444';
+                        const referralUrl = 'www.amozit.com/referral/483BBJ78xh64';
+                        await Share.share(
+                          'Check out AMOZIT! Use my referral code $referralCode: $referralUrl',
+                          subject: 'AMOZIT Referral',
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,

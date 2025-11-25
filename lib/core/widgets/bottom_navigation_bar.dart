@@ -63,7 +63,12 @@ class AppBottomNavigationBar extends StatelessWidget {
               label: 'Shop',
               index: 1,
               onTap: () {
-                Navigator.of(context).pushNamed(AppRoutes.shopLanding);
+                if (currentIndex != 1) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    AppRoutes.shopLanding,
+                    (route) => false,
+                  );
+                }
               },
             ),
             _buildNavItem(
@@ -72,7 +77,12 @@ class AppBottomNavigationBar extends StatelessWidget {
               label: 'Orders',
               index: 2,
               onTap: () {
-                Navigator.of(context).pushNamed(AppRoutes.myOrders);
+                if (currentIndex != 2) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    AppRoutes.myOrders,
+                    (route) => false,
+                  );
+                }
               },
             ),
             _buildNavItem(
@@ -81,7 +91,12 @@ class AppBottomNavigationBar extends StatelessWidget {
               label: 'Cart',
               index: 3,
               onTap: () {
-                Navigator.of(context).pushNamed(AppRoutes.cart);
+                if (currentIndex != 3) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    AppRoutes.cart,
+                    (route) => false,
+                  );
+                }
               },
             ),
           ],

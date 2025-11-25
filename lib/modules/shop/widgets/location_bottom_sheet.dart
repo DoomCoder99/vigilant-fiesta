@@ -43,7 +43,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
       if (isGranted) {
         // Get current location
         try {
-          final position = await Geolocator.getCurrentPosition(
+          await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
           );
           
@@ -73,7 +73,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
         final granted = await permissionService.requestPermission();
         if (granted && mounted) {
           try {
-            final position = await Geolocator.getCurrentPosition(
+            await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high,
             );
             

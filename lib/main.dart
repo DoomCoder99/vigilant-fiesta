@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'core/routes/app_routes.dart';
+import 'modules/shop/services/cart_service.dart';
+import 'modules/shop/services/favorites_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/auth_guard.dart';
 import 'core/services/localization_service.dart';
@@ -73,6 +76,13 @@ import 'modules/subscription/view/subscription_payment_success_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Hive
+  await Hive.initFlutter();
+  
+  // Initialize services
+  await CartService.instance.init();
+  await FavoritesService.instance.init();
   
   // Initialize localization
   await LocalizationService.init();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
@@ -7,7 +8,9 @@ import '../../../../core/utils/asset_helper.dart';
 import '../../../../core/utils/asset_helper.dart' as assets;
 import '../../../../core/widgets/amozit_empty_state_widget.dart';
 import '../services/cart_service.dart';
+import '../services/favorites_service.dart';
 import 'menu_all_categories_screen.dart';
+import '../../../../core/widgets/bottom_navigation_bar.dart';
 
 /// Category Listing Screen
 /// 
@@ -29,6 +32,8 @@ class CategoryListingScreen extends StatefulWidget {
 class _CategoryListingScreenState extends State<CategoryListingScreen> {
   String? _selectedFilter = 'Latest';
   final CartService _cartService = CartService.instance;
+  final FavoritesService _favoritesService = FavoritesService.instance;
+  int _currentBottomNavIndex = 1; // Shop tab is index 1
   
   // TODO: Replace with actual product data
   final List<String> _products = List.generate(10, (i) => 'product_$i');
@@ -47,15 +52,21 @@ class _CategoryListingScreenState extends State<CategoryListingScreen> {
   void initState() {
     super.initState();
     _cartService.addListener(_onCartChanged);
+    _favoritesService.addListener(_onFavoritesChanged);
   }
 
   @override
   void dispose() {
     _cartService.removeListener(_onCartChanged);
+    _favoritesService.removeListener(_onFavoritesChanged);
     super.dispose();
   }
 
   void _onCartChanged() {
+    setState(() {});
+  }
+
+  void _onFavoritesChanged() {
     setState(() {});
   }
 
@@ -108,7 +119,7 @@ class _CategoryListingScreenState extends State<CategoryListingScreen> {
               showModalBottomSheet(
                 context: context,
                 backgroundColor: Colors.transparent,
-                builder: (context) => const MenuAllCategoriesScreen(),
+                builder: (context) => MenuAllCategoriesScreen(),
               );
             },
             style: IconButton.styleFrom(
@@ -162,6 +173,34 @@ class _CategoryListingScreenState extends State<CategoryListingScreen> {
         children: [
           // Filter tabs
           _buildFilterTabs(),
+          // Banner carousel section (always shown when clicking on any main category)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+            child: _buildBannerCarousel(),
+          ),
+          // Product added to cart carousel section (if any products in cart)
+          if (_cartService.itemCount > 0) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Text(
+                      'Products Added to Cart',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildProductAddedToCartCarousel(),
+                ],
+              ),
+            ),
+          ],
           // Product grid or empty state
           Expanded(
             child: _hasNoFilteredResults && _hasActiveFilters
@@ -208,6 +247,38 @@ class _CategoryListingScreenState extends State<CategoryListingScreen> {
                   ),
           ),
         ],
+      ),
+      bottomNavigationBar: AppBottomNavigationBar(
+        currentIndex: _currentBottomNavIndex,
+        onTap: (index) {
+          setState(() {
+            _currentBottomNavIndex = index;
+          });
+          // Navigate based on index
+          switch (index) {
+            case 0:
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                AppRoutes.amozitLandingConfirmed,
+                (route) => false,
+              );
+              break;
+            case 1:
+              // Already on shop page
+              break;
+            case 2:
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                AppRoutes.myOrders,
+                (route) => false,
+              );
+              break;
+            case 3:
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                AppRoutes.cart,
+                (route) => false,
+              );
+              break;
+          }
+        },
       ),
     );
   }
@@ -410,56 +481,314 @@ class _CategoryListingScreenState extends State<CategoryListingScreen> {
           Row(
             children: [
               Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    if (isInCart) {
-                      _cartService.removeFromCart(productId);
-                    } else {
-                      _cartService.addToCart(productId);
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: isInCart 
-                          ? AppColors.primary.withOpacity(0.3)
-                          : AppColors.primary,
-                    ),
-                    backgroundColor: isInCart 
-                        ? AppColors.primary.withOpacity(0.1)
-                        : Colors.transparent,
-                    foregroundColor: AppColors.primary,
-                    minimumSize: const Size(double.infinity, 28),
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  child: Text(
-                    isInCart ? 'Added' : 'add to cart',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
+                child: isInCart
+                    ? _buildCounterButton(productId)
+                    : OutlinedButton(
+                        onPressed: () {
+                          _cartService.addToCart(productId);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: AppColors.primary),
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: AppColors.primary,
+                          minimumSize: const Size(double.infinity, 28),
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        child: Text(
+                          'add to cart',
+                          style: AppTextStyles.bodySmall.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: const Icon(
-                  Icons.favorite_border,
-                  size: 12,
-                  color: AppColors.primary,
+              GestureDetector(
+                onTap: () {
+                  _favoritesService.toggleFavorite(productId);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Icon(
+                    _favoritesService.isFavorite(productId)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    size: 12,
+                    color: _favoritesService.isFavorite(productId)
+                        ? Colors.red
+                        : AppColors.primary,
+                  ),
                 ),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  /// Build counter button for products in cart
+  Widget _buildCounterButton(String productId) {
+    final quantity = _cartService.getQuantity(productId);
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.primary.withOpacity(0.1),
+        border: Border.all(
+          color: AppColors.primary.withOpacity(0.6),
+        ),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (quantity <= 1) {
+                _cartService.removeFromCart(productId);
+              } else {
+                _cartService.removeFromCart(productId);
+              }
+            },
+            child: Text(
+              '-',
+              style: AppTextStyles.bodySmall.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+          SizedBox(
+            width: 24,
+            child: Text(
+              quantity.toString(),
+              textAlign: TextAlign.center,
+              style: AppTextStyles.bodySmall.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+          GestureDetector(
+            onTap: () {
+              _cartService.addToCart(productId);
+            },
+            child: Text(
+              '+',
+              style: AppTextStyles.bodySmall.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Build banner carousel section (shown when clicking on any main category)
+  Widget _buildBannerCarousel() {
+    // Banner carousel data with 3-4 images and separate text
+    final bannerItems = [
+      {
+        'image': assets.AssetPaths.bannerMusicSpeaker,
+        'title': 'Your new music companion!',
+        'subtitle': 'Check the Bluetooth speaker range from Maestro.',
+        'buttonText': 'Explore',
+      },
+      {
+        'image': assets.AssetPaths.bannerCarCare,
+        'title': 'Premium car care',
+        'subtitle': 'near you, 24x7, Pick up & drop',
+        'buttonText': 'Book Now',
+      },
+      {
+        'image': assets.AssetPaths.bannerMusicSpeaker,
+        'title': 'Services starting from OMR 9.99',
+        'subtitle': 'Verified professionals, book at your preferred time slot.',
+        'buttonText': 'Book Now',
+      },
+      {
+        'image': assets.AssetPaths.bannerCarCare,
+        'title': 'Get 20% off on your first consultation',
+        'subtitle': 'Book now and save big on your first service',
+        'buttonText': 'Shop Now',
+      },
+    ];
+
+    return SizedBox(
+      height: 180,
+      child: CarouselSlider.builder(
+        itemCount: bannerItems.length,
+        itemBuilder: (context, index, realIndex) {
+          final item = bannerItems[index];
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: Stack(
+              children: [
+                // Background image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: AssetHelper.loadImageOrPlaceholder(
+                    assetPath: item['image'] as String,
+                    width: double.infinity,
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                // Overlay
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+                // Content
+                Positioned(
+                  left: AppSpacing.lg,
+                  top: AppSpacing.xxl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item['title'] as String,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        item['subtitle'] as String,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      ElevatedButton(
+                        onPressed: () {
+                          // TODO: Navigate based on button text
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.sm,
+                          ),
+                        ),
+                        child: Text(
+                          item['buttonText'] as String,
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        options: CarouselOptions(
+          height: 180,
+          viewportFraction: 1.0,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 4),
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          autoPlayCurve: Curves.fastOutSlowIn,
+        ),
+      ),
+    );
+  }
+
+  /// Build carousel for product added to cart section
+  Widget _buildProductAddedToCartCarousel() {
+    // Carousel data with 3-4 images and separate text
+    final carouselItems = [
+      {
+        'image': assets.AssetPaths.productImage9,
+        'text': 'Recently Added',
+      },
+      {
+        'image': assets.AssetPaths.productImage10,
+        'text': 'Popular Now',
+      },
+      {
+        'image': assets.AssetPaths.productImage11,
+        'text': 'Best Deals',
+      },
+      {
+        'image': assets.AssetPaths.productImage12,
+        'text': 'Top Rated',
+      },
+    ];
+
+    return CarouselSlider.builder(
+      itemCount: carouselItems.length,
+      itemBuilder: (context, index, realIndex) {
+        final item = carouselItems[index];
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.inputBorder,
+                    borderRadius: BorderRadius.circular(AppBorderRadius.sm),
+                  ),
+                  child: AssetHelper.loadImageOrPlaceholder(
+                    assetPath: item['image'] as String,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                item['text'] as String,
+                style: AppTextStyles.bodySmall.copyWith(
+                  fontSize: 10,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
+      options: CarouselOptions(
+        height: 120,
+        viewportFraction: 0.3,
+        autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: false,
       ),
     );
   }

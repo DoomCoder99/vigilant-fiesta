@@ -469,84 +469,74 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildBottomBar(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.xxxxl,
-        vertical: AppSpacing.lg,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-      ),
       margin: const EdgeInsets.all(AppSpacing.lg),
       child: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(AppRoutes.paymentMethod);
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xxxxl,
+              vertical: AppSpacing.lg,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: AppColors.backgroundWhite,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '$_itemQuantity',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      fontSize: 8,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundWhite,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        '$_itemQuantity',
+                        style: AppTextStyles.bodySmall.copyWith(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Container(
+                      width: 1,
+                      height: 16,
+                      color: AppColors.backgroundWhite.withOpacity(0.3),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(
+                      'OMR 20',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        fontSize: 14,
+                        color: AppColors.backgroundWhite,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Container(
-                  width: 1,
-                  height: 16,
-                  color: AppColors.backgroundWhite.withOpacity(0.3),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  'OMR 20',
-                  style: AppTextStyles.bodySmall.copyWith(
-                    fontSize: 14,
-                    color: AppColors.backgroundWhite,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      'Continue',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.backgroundWhite,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    const Icon(Icons.chevron_right, size: 20, color: AppColors.backgroundWhite),
+                  ],
                 ),
               ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.paymentMethod);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.backgroundWhite,
-                foregroundColor: AppColors.primary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.md,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Continue',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  const Icon(Icons.chevron_right, size: 20, color: AppColors.primary),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

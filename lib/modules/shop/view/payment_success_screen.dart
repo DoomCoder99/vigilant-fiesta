@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
+import '../../../../core/utils/asset_helper.dart';
 
 /// Payment Success Screen
 /// 
@@ -35,7 +37,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                     children: [
                       // Success message text
                       Positioned(
-                        top: AppSpacing.xxxxxl,
+                        top: 48,
                         left: 0,
                         right: 0,
                         child: Text(
@@ -49,7 +51,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Robot illustration placeholder
+                      // Robot illustration with checkmark
                       Positioned(
                         bottom: 0,
                         left: 0,
@@ -65,15 +67,44 @@ class PaymentSuccessScreen extends StatelessWidget {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              // Checkmark badge
+                              // Robot image - using robot mascot SVG
                               Positioned(
-                                right: AppSpacing.xxl,
-                                top: AppSpacing.xxl,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: SizedBox(
+                                  width: 251,
+                                  height: 280,
+                                  child: SvgPicture.asset(
+                                    'assets/images/robot_mascot.svg',
+                                    width: 251,
+                                    height: 280,
+                                    fit: BoxFit.contain,
+                                    placeholderBuilder: (context) => Container(
+                                      width: 251,
+                                      height: 280,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: const Icon(
+                                        Icons.smart_toy,
+                                        size: 120,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Checkmark badge in speech bubble
+                              Positioned(
+                                right: 40,
+                                top: 40,
                                 child: Container(
                                   width: 60,
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    color: Colors.greenAccent,
+                                    color: const Color(0xFF4CAF50), // Green accent
                                     shape: BoxShape.circle,
                                   ),
                                   child: const Icon(
@@ -81,20 +112,6 @@ class PaymentSuccessScreen extends StatelessWidget {
                                     color: Colors.white,
                                     size: 40,
                                   ),
-                                ),
-                              ),
-                              // Robot placeholder
-                              Container(
-                                width: 200,
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.smart_toy,
-                                  size: 120,
-                                  color: Colors.white,
                                 ),
                               ),
                             ],

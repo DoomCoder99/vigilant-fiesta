@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
@@ -12,6 +14,7 @@ import '../../../../core/utils/asset_helper.dart' as assets;
 import '../../service_booking/view/home_maintenance_categories_screen.dart';
 import '../../quick_trigger/view/quick_trigger_host.dart';
 import '../widgets/location_bottom_sheet.dart';
+import 'menu_all_categories_screen.dart';
 
 /// Amozit Landing Confirmed Screen
 /// 
@@ -111,7 +114,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
       },
     ];
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Stack(
         children: [
@@ -243,8 +246,8 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
           ),
           // Location & Profile - positioned at top
           _buildLocationAndProfile(),
-          // Search bar - positioned below location
-          _buildSearchBarOverlay(),
+          // Search bar - positioned below location & profile
+          _buildSearchBarInBanner(),
           // Pagination dots
           Positioned(
             bottom: AppSpacing.lg,
@@ -370,9 +373,9 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
     );
   }
 
-  Widget _buildSearchBarOverlay() {
+  Widget _buildSearchBarInBanner() {
     return Positioned(
-      top: 100, // Position from top of banner (below location & profile)
+      top: 100, // Position from top of banner (below Location & Profile)
       left: AppSpacing.lg,
       right: AppSpacing.lg,
       child: GestureDetector(
@@ -380,24 +383,25 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
           Get.toNamed(AppRoutes.search);
         },
         child: Container(
+          height: 48,
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.lg,
+            horizontal: 20,
+            vertical: 16,
           ),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.3),
             border: Border.all(color: Colors.white.withOpacity(0.2)),
-            borderRadius: BorderRadius.circular(AppBorderRadius.xl),
+            borderRadius: BorderRadius.circular(24),
           ),
           child: Row(
             children: [
               const Icon(Icons.search, color: Colors.white, size: 16),
-              const SizedBox(width: AppSpacing.md),
+              const SizedBox(width: 8),
               Text(
                 'Search',
                 style: AppTextStyles.bodySmall.copyWith(
-                  color: Colors.white,
                   fontSize: 12,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -424,7 +428,14 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    builder: (context) => MenuAllCategoriesScreen(),
+                  );
+                },
                 child: Text(
                   'See all',
                   style: AppTextStyles.bodySmall.copyWith(
@@ -532,7 +543,12 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(AppRoutes.menuAllCategories);
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    builder: (context) => MenuAllCategoriesScreen(),
+                  );
                 },
                 child: Text(
                   'View All',
@@ -681,7 +697,14 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    builder: (context) => MenuAllCategoriesScreen(),
+                  );
+                },
                 child: Text(
                   'See all',
                   style: AppTextStyles.bodySmall.copyWith(
@@ -986,7 +1009,14 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    builder: (context) => MenuAllCategoriesScreen(),
+                  );
+                },
                 child: Text(
                   'View all',
                   style: AppTextStyles.bodySmall.copyWith(
@@ -1084,7 +1114,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               children: [
                 Expanded(
                   child: Text(
-                    'www.amozit.com/referral/483BBJ78xh64',
+                    'www.amozit.com/referral/483BBJ78xh64 #0233444',
                     style: AppTextStyles.bodySmall,
                   ),
                 ),
@@ -1092,14 +1122,30 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   icon: const Icon(Icons.content_copy, size: 16),
-                  onPressed: () {},
+                  onPressed: () {
+                    const referralText = 'www.amozit.com/referral/483BBJ78xh64 #0233444';
+                    Clipboard.setData(const ClipboardData(text: referralText));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Referral code copied to clipboard'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              const referralCode = '#0233444';
+              const referralUrl = 'www.amozit.com/referral/483BBJ78xh64';
+              await Share.share(
+                'Check out AMOZIT! Use my referral code $referralCode: $referralUrl',
+                subject: 'AMOZIT Referral',
+              );
+            },
             icon: AssetHelper.loadImageOrIcon(
               assetPath: assets.AssetPaths.iconShare,
               fallbackIcon: Icons.share,

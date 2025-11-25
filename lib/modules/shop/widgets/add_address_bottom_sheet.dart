@@ -51,7 +51,7 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
     });
 
     try {
-      final position = await Geolocator.getCurrentPosition(
+      await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
       

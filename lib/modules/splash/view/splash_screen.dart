@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
@@ -35,8 +36,8 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     )..repeat(reverse: true);
 
-    // Create wave animation (rotates arm from -15 to 15 degrees)
-    _waveAnimation = Tween<double>(begin: -0.15, end: 0.15).animate(
+    // Create wave animation (rotates hand from -20 to 20 degrees for waving motion)
+    _waveAnimation = Tween<double>(begin: -0.35, end: 0.35).animate(
       CurvedAnimation(
         parent: _waveController,
         curve: Curves.easeInOut,
@@ -79,23 +80,51 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Robot Character Illustration with Waving Animation
-                  AnimatedBuilder(
-                    animation: _waveAnimation,
-                    builder: (context, child) {
-                      return Transform.rotate(
-                        angle: _waveAnimation.value,
-                        alignment: Alignment.topRight,
-                        child: SizedBox(
+                  // Robot Character Illustration with Waving Hand Animation
+                  SizedBox(
+                    width: 101,
+                    height: 149,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Robot body (static) - without the right hand
+                        SvgPicture.asset(
+                          'assets/images/robot_mascot.svg',
                           width: 101,
                           height: 149,
-                          child: Image.asset(
-                            'assets/images/robot_character.png',
-                            fit: BoxFit.contain,
+                          fit: BoxFit.contain,
+                          semanticsLabel: 'Robot Mascot',
+                          placeholderBuilder: (context) => const SizedBox(
+                            width: 101,
+                            height: 149,
                           ),
                         ),
-                      );
-                    },
+                        // Animated waving hand positioned at robot's right side
+                        Positioned(
+                          right: 0,
+                          top: 18,
+                          child: AnimatedBuilder(
+                            animation: _waveAnimation,
+                            builder: (context, child) {
+                              return Transform.rotate(
+                                angle: _waveAnimation.value,
+                                alignment: const Alignment(-0.5, 0.0),
+                                child: SvgPicture.asset(
+                                  'assets/images/robot_hand_wave.svg',
+                                  width: 20,
+                                  height: 35,
+                                  fit: BoxFit.contain,
+                                  placeholderBuilder: (context) => const SizedBox(
+                                    width: 20,
+                                    height: 35,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(height: 32),

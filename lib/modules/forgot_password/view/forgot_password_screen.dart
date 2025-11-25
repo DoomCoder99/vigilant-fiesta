@@ -23,6 +23,42 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailPhoneController = TextEditingController();
   bool _isLoading = false;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to email/phone field changes
+    _emailPhoneController.addListener(_onEmailPhoneChanged);
+  }
+
+  void _onEmailPhoneChanged() {
+    setState(() {
+      _errorMessage = null; // Clear error when user types
+      // Re-validate to enable/disable button
+    });
+  }
+
+  /// Check if button should be enabled
+  bool get _isButtonEnabled {
+    final input = _emailPhoneController.text.trim();
+    return input.isNotEmpty && _isValidEmailOrPhone(input);
+  }
+
+  /// Validate email or phone number
+  bool _isValidEmailOrPhone(String input) {
+    if (input.isEmpty) return false;
+    
+    // Check if it's an email (contains @)
+    if (input.contains('@')) {
+      final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+      return emailRegex.hasMatch(input);
+    }
+    
+    // Check if it's a phone number (digits only, 8-15 digits)
+    final phoneRegex = RegExp(r'^[0-9]{8,15}$');
+    return phoneRegex.hasMatch(input.replaceAll(RegExp(r'[\s\-\(\)]'), ''));
+  }
 
   @override
   void dispose() {
@@ -31,12 +67,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Future<void> _handleGetOtp() async {
-    if (_emailPhoneController.text.isEmpty) {
+    final input = _emailPhoneController.text.trim();
+    
+    // Validate input
+    if (!_isValidEmailOrPhone(input)) {
+      setState(() {
+        _errorMessage = 'Please enter a valid email or phone number';
+      });
       return;
     }
 
     setState(() {
       _isLoading = true;
+      _errorMessage = null;
     });
 
     // TODO: Implement actual OTP request API call
@@ -50,7 +93,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       // Navigate to OTP screen with email/phone
       Navigator.of(context).pushNamed(
         AppRoutes.forgotPasswordOtp,
-        arguments: _emailPhoneController.text,
+        arguments: input,
       );
     }
   }
@@ -168,14 +211,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
 
+                  // Error Message
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppSpacing.sm),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          _errorMessage!,
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: AppColors.errorLight,
+                          ),
+                        ),
+                      ),
+                    ),
+
                   const SizedBox(height: AppSpacing.md),
 
-                  // Get OTP Button
+                  // Get OTP Button - Enabled when valid email/phone is entered
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: (_emailPhoneController.text.isNotEmpty &&
-                              !_isLoading)
+                      onPressed: (_isButtonEnabled && !_isLoading)
                           ? _handleGetOtp
                           : null,
                       child: _isLoading

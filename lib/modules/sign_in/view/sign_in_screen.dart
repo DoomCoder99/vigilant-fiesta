@@ -31,6 +31,19 @@ class _SignInScreenState extends State<SignInScreen> {
   String? _errorMessage;
 
   @override
+  void initState() {
+    super.initState();
+    // Listen to password field changes to enable/disable button
+    _passwordController.addListener(_onPasswordChanged);
+  }
+
+  void _onPasswordChanged() {
+    setState(() {
+      // Button will be enabled when password is being entered
+    });
+  }
+
+  @override
   void dispose() {
     _emailPhoneController.dispose();
     _passwordController.dispose();
@@ -282,14 +295,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
                   const SizedBox(height: AppSpacing.md),
 
-                  // Sign In Button
+                  // Sign In Button - Enabled when password is being entered
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed:
-                          (_emailPhoneController.text.isNotEmpty &&
-                                  _passwordController.text.isNotEmpty &&
-                                  !_isLoading)
+                          (_passwordController.text.isNotEmpty && !_isLoading)
                               ? _handleSignIn
                               : null,
                       child: _isLoading
