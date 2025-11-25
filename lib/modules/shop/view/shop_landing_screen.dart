@@ -23,8 +23,6 @@ class ShopLandingScreen extends StatefulWidget {
 }
 
 class _ShopLandingScreenState extends State<ShopLandingScreen> {
-  int _currentBannerIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return _buildShopLanding(context);
@@ -148,11 +146,6 @@ class _ShopLandingScreenState extends State<ShopLandingScreen> {
           autoPlayInterval: const Duration(seconds: 4),
           autoPlayAnimationDuration: const Duration(milliseconds: 800),
           autoPlayCurve: Curves.fastOutSlowIn,
-          onPageChanged: (index, reason) {
-            setState(() {
-              _currentBannerIndex = index;
-            });
-          },
         ),
       ),
     );

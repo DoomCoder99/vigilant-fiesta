@@ -124,19 +124,19 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
             itemBuilder: (context, index, realIndex) {
               final banner = banners[index];
               return Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0.0),
-                    ],
-                    stops: const [0.09, 0.37],
-                  ),
-                ),
-                child: Stack(
-                  children: [
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black.withOpacity(0.8),
+            Colors.black.withOpacity(0.0),
+          ],
+          stops: const [0.09, 0.37],
+        ),
+      ),
+      child: Stack(
+        children: [
                     // Background image
                     Positioned.fill(
                       child: AssetHelper.loadImageOrPlaceholder(
@@ -149,7 +149,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                     // Gradient overlay
                     Positioned.fill(
                       child: Container(
-                        decoration: BoxDecoration(
+            decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -159,33 +159,33 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                             ],
                             stops: const [0.09, 0.37],
                           ),
-                        ),
-                      ),
+            ),
+          ),
                     ),
-                    // Content overlay
-                    Positioned(
-                      right: AppSpacing.lg,
-                      top: 200,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
+          // Content overlay
+          Positioned(
+            right: AppSpacing.lg,
+            top: 200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
                             banner['title'] as String,
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w900,
-                              color: const Color(0xFFD5B591),
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFFD5B591),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
                             banner['subtitle'] as String,
-                            style: AppTextStyles.bodySmall.copyWith(
-                              fontSize: 10,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.lg),
+                  style: AppTextStyles.bodySmall.copyWith(
+                    fontSize: 10,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.1),
@@ -203,29 +203,29 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
                                     vertical: 8,
-                                  ),
+                    ),
                                   alignment: Alignment.center,
                                   constraints: const BoxConstraints(
                                     minWidth: 120,
                                     minHeight: 32,
-                                  ),
-                                  child: Text(
+                  ),
+                  child: Text(
                                     banner['buttonText'] as String,
-                                    style: AppTextStyles.bodySmall.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                       letterSpacing: 0.24,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
+                  ),
+                ),
+              ],
+            ),
+          ),
                   ],
                 ),
               );
@@ -295,36 +295,36 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               );
             },
             child: Row(
-              children: [
-                const Icon(Icons.location_on, color: Colors.white, size: 20),
-                const SizedBox(width: AppSpacing.sm),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Koramangala',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                          ),
+            children: [
+              const Icon(Icons.location_on, color: Colors.white, size: 20),
+              const SizedBox(width: AppSpacing.sm),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Koramangala',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
                         ),
-                        const SizedBox(width: AppSpacing.xs),
-                        const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 16),
-                      ],
-                    ),
-                    Text(
-                      'Bengaluru, Karnataka',
-                      style: AppTextStyles.bodySmall.copyWith(
-                        fontSize: 10,
-                        color: Colors.white,
                       ),
+                      const SizedBox(width: AppSpacing.xs),
+                      const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 16),
+                    ],
+                  ),
+                  Text(
+                    'Bengaluru, Karnataka',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      fontSize: 10,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
+            ],
             ),
           ),
           // Profile avatar - clickable, positioned at right
@@ -382,29 +382,29 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
         onTap: () {
           Get.toNamed(AppRoutes.search);
         },
-        child: Container(
+      child: Container(
           height: 48,
-          padding: const EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 16,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
-            border: Border.all(color: Colors.white.withOpacity(0.2)),
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.3),
+          border: Border.all(color: Colors.white.withOpacity(0.2)),
             borderRadius: BorderRadius.circular(24),
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.search, color: Colors.white, size: 16),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.search, color: Colors.white, size: 16),
               const SizedBox(width: 8),
-              Text(
-                'Search',
-                style: AppTextStyles.bodySmall.copyWith(
+            Text(
+              'Search',
+              style: AppTextStyles.bodySmall.copyWith(
                   fontSize: 12,
-                  color: Colors.white,
-                ),
+                color: Colors.white,
               ),
-            ],
+            ),
+          ],
           ),
         ),
       ),

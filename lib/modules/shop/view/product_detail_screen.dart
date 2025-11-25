@@ -463,7 +463,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                         ],
                       ),
                     );
-                  }).toList(),
+                  }),
                 ],
               ),
             ),
