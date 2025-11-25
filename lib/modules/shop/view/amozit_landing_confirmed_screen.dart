@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
@@ -10,6 +11,7 @@ import '../../../../core/utils/asset_helper.dart';
 import '../../../../core/utils/asset_helper.dart' as assets;
 import '../../service_booking/view/home_maintenance_categories_screen.dart';
 import '../../quick_trigger/view/quick_trigger_host.dart';
+import '../widgets/location_bottom_sheet.dart';
 
 /// Amozit Landing Confirmed Screen
 /// 
@@ -24,6 +26,7 @@ class AmozitLandingConfirmedScreen extends StatefulWidget {
 
 class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScreen> {
   int _currentIndex = 0; // 0 = Home, 1 = Shop, 2 = Orders, 3 = Cart
+  int _currentBannerIndex = 0; // Current banner carousel index
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +47,8 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
         children: [
           // Status bar area (handled by system)
           const SizedBox(height: AppSpacing.xxxxl),
-          // Banner section (includes Location & Profile overlay)
+          // Banner section (includes Location & Profile overlay and Search bar)
           _buildBanner(),
-          // Search bar
-          _buildSearchBar(),
           const SizedBox(height: AppSpacing.xxl),
           // Quick Services section
           _buildQuickServices(),
@@ -82,77 +83,168 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
   }
 
   Widget _buildBanner() {
+    // Banner data with images and text
+    final banners = [
+      {
+        'image': assets.AssetPaths.bannerCarCare,
+        'title': 'premium car care',
+        'subtitle': 'near you, 24x7, Pick up & drop',
+        'buttonText': 'Book Now',
+      },
+      {
+        'image': assets.AssetPaths.bannerMusicSpeaker,
+        'title': 'Your new music companion!',
+        'subtitle': 'Check the Bluetooth speaker range from Maestro.',
+        'buttonText': 'Explore',
+      },
+      {
+        'image': assets.AssetPaths.bannerSibert,
+        'title': 'Get 20% off on your first consultation',
+        'subtitle': 'Verified professionals, book at your preferred time slot.',
+        'buttonText': 'Book Now',
+      },
+      {
+        'image': assets.AssetPaths.bannerRefresh,
+        'title': 'Super Clean Home Interior Cleaning Services',
+        'subtitle': 'REFRSH - Professional cleaning services',
+        'buttonText': 'Book Now',
+      },
+    ];
+
     return Container(
       height: 400,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black.withOpacity(0.8),
-            Colors.black.withOpacity(0.0),
-          ],
-          stops: const [0.09, 0.37],
-        ),
-      ),
       child: Stack(
         children: [
-          // Background image placeholder
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-            ),
-            child: const Center(
-              child: Icon(Icons.image, size: 100, color: Colors.grey),
+          // Carousel background images
+          CarouselSlider.builder(
+            itemCount: banners.length,
+            itemBuilder: (context, index, realIndex) {
+              final banner = banners[index];
+              return Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.8),
+                      Colors.black.withOpacity(0.0),
+                    ],
+                    stops: const [0.09, 0.37],
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    // Background image
+                    Positioned.fill(
+                      child: AssetHelper.loadImageOrPlaceholder(
+                        assetPath: banner['image'] as String,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    // Gradient overlay
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.8),
+                              Colors.black.withOpacity(0.0),
+                            ],
+                            stops: const [0.09, 0.37],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Content overlay
+                    Positioned(
+                      right: AppSpacing.lg,
+                      top: 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            banner['title'] as String,
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w900,
+                              color: const Color(0xFFD5B591),
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          Text(
+                            banner['subtitle'] as String,
+                            style: AppTextStyles.bodySmall.copyWith(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.1),
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  // TODO: Navigate based on button text
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                  alignment: Alignment.center,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 120,
+                                    minHeight: 32,
+                                  ),
+                                  child: Text(
+                                    banner['buttonText'] as String,
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      letterSpacing: 0.24,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            options: CarouselOptions(
+              height: 400,
+              viewportFraction: 1.0,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 4),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentBannerIndex = index;
+                });
+              },
             ),
           ),
           // Location & Profile - positioned at top
           _buildLocationAndProfile(),
-          // Content overlay
-          Positioned(
-            right: AppSpacing.lg,
-            top: 200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'premium car care',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: const Color(0xFFD5B591),
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  'near you, 24x7, Pick up & drop',
-                  style: AppTextStyles.bodySmall.copyWith(
-                    fontSize: 10,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                OutlinedButton(
-                  onPressed: () {
-                    // TODO: Navigate to car care services
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.white),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-                    ),
-                  ),
-                  child: Text(
-                    'Book Now',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Search bar - positioned below location
+          _buildSearchBarOverlay(),
           // Pagination dots
           Positioned(
             bottom: AppSpacing.lg,
@@ -160,35 +252,20 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 4,
+              children: List.generate(banners.length, (index) {
+                final isActive = index == _currentBannerIndex;
+                return Container(
+                  width: isActive ? 20 : 4,
                   height: 4,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Container(
-                  width: 20,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isActive
+                        ? Colors.white
+                        : Colors.white.withOpacity(0.4),
                     borderRadius: BorderRadius.circular(2),
                   ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                ...List.generate(3, (index) => Container(
-                  width: 4,
-                  height: 4,
-                  margin: const EdgeInsets.only(right: AppSpacing.sm),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                  ),
-                )),
-              ],
+                );
+              }),
             ),
           ),
         ],
@@ -204,38 +281,48 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Location section
-          Row(
-            children: [
-              const Icon(Icons.location_on, color: Colors.white, size: 20),
-              const SizedBox(width: AppSpacing.sm),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Koramangala',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
+          // Location section - clickable
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const LocationBottomSheet(),
+              );
+            },
+            child: Row(
+              children: [
+                const Icon(Icons.location_on, color: Colors.white, size: 20),
+                const SizedBox(width: AppSpacing.sm),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Koramangala',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 16),
-                    ],
-                  ),
-                  Text(
-                    'Bengaluru, Karnataka',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      fontSize: 10,
-                      color: Colors.white,
+                        const SizedBox(width: AppSpacing.xs),
+                        const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 16),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Text(
+                      'Bengaluru, Karnataka',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        fontSize: 10,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           // Profile avatar - clickable, positioned at right
           GestureDetector(
@@ -283,30 +370,38 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
     );
   }
 
-  Widget _buildSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.lg,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.3),
-          border: Border.all(color: Colors.white.withOpacity(0.2)),
-          borderRadius: BorderRadius.circular(AppBorderRadius.xl),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.search, color: Colors.white, size: 16),
-            const SizedBox(width: AppSpacing.md),
-            Text(
-              'Search',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: Colors.white,
+  Widget _buildSearchBarOverlay() {
+    return Positioned(
+      top: 100, // Position from top of banner (below location & profile)
+      left: AppSpacing.lg,
+      right: AppSpacing.lg,
+      child: GestureDetector(
+        onTap: () {
+          Get.toNamed(AppRoutes.search);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.lg,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            border: Border.all(color: Colors.white.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(AppBorderRadius.xl),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.search, color: Colors.white, size: 16),
+              const SizedBox(width: AppSpacing.md),
+              Text(
+                'Search',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

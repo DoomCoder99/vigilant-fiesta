@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/services/location_permission_service.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
@@ -9,10 +11,29 @@ import '../../../../core/theme/typography.dart';
 /// 
 /// First screen in the onboarding walkthrough flow.
 /// Introduces users to the app's core functionality: finding, booking, and relaxing.
+/// Uses a carousel for the illustration image.
 /// 
 /// Design Source: Figma frame "Walkthrough 1" (node-id: 1-1018)
-class Walkthrough1Screen extends StatelessWidget {
+/// Carousel Image: Figma frame "Frame 1171275300" (node-id: 1-1036)
+class Walkthrough1Screen extends StatefulWidget {
   const Walkthrough1Screen({super.key});
+
+  @override
+  State<Walkthrough1Screen> createState() => _Walkthrough1ScreenState();
+}
+
+class _Walkthrough1ScreenState extends State<Walkthrough1Screen> {
+  final CarouselSliderController _carouselController = CarouselSliderController();
+  int _currentIndex = 0;
+
+  // List of walkthrough images (3-4 images for carousel)
+  // TODO: Replace with actual walkthrough images when available
+  final List<String> _walkthroughImages = [
+    'assets/images/walkthrough_illustration.png',
+    'assets/images/walkthrough_illustration.png', // Placeholder for image 2
+    'assets/images/walkthrough_illustration.png', // Placeholder for image 3
+    'assets/images/walkthrough_illustration.png', // Placeholder for image 4
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,20 +92,39 @@ class Walkthrough1Screen extends StatelessWidget {
 
                 const Spacer(),
 
-                // Illustration
-                SizedBox(
-                  width: 260,
-                  height: 228,
-                  child: Image.asset(
-                    'assets/images/walkthrough_illustration.png',
-                    fit: BoxFit.contain,
+                // Carousel Illustration (260x228)
+                CarouselSlider.builder(
+                  carouselController: _carouselController,
+                  itemCount: _walkthroughImages.length,
+                  itemBuilder: (context, index, realIndex) {
+                    return SizedBox(
+                      width: 260,
+                      height: 228,
+                      child: Image.asset(
+                        _walkthroughImages[index],
+                        fit: BoxFit.contain,
+                      ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: 228,
+                    viewportFraction: 1.0,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
                   ),
                 ),
 
                 const Spacer(),
 
                 // Pagination Dots
-                const _PaginationDots(currentIndex: 0, totalDots: 3),
+                _PaginationDots(
+                  currentIndex: _currentIndex,
+                  totalDots: _walkthroughImages.length,
+                ),
 
                 const SizedBox(height: AppSpacing.xxxxxl),
 
@@ -99,7 +139,7 @@ class Walkthrough1Screen extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed(AppRoutes.signIn);
+                            _handleButtonPress(context, isSignIn: true);
                           },
                           child: const Text('Sign In'),
                         ),
@@ -111,8 +151,7 @@ class Walkthrough1Screen extends StatelessWidget {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () {
-                            // Navigate to Location Access screen to request permission
-                            Navigator.of(context).pushReplacementNamed(AppRoutes.locationAccess);
+                            _handleButtonPress(context, isSignIn: false);
                           },
                           child: const Text('Explore'),
                         ),
@@ -128,6 +167,34 @@ class Walkthrough1Screen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Handle button press - request location permission for first-time users
+  /// 
+  /// For first-time users who haven't granted location permission,
+  /// this will show the system permission dialog.
+  /// After permission handling, navigates to the appropriate screen.
+  Future<void> _handleButtonPress(BuildContext context, {required bool isSignIn}) async {
+    final permissionService = LocationPermissionService.instance;
+    
+    // Check if permission is already granted
+    final isGranted = await permissionService.isPermissionGranted();
+    
+    // If permission is not granted, request it (for first-time users)
+    if (!isGranted) {
+      // Request location permission - this will show the system-generated dialog
+      await permissionService.requestPermission();
+    }
+    
+    // Navigate to the appropriate screen
+    if (mounted) {
+      if (isSignIn) {
+        Navigator.of(context).pushNamed(AppRoutes.signIn);
+      } else {
+        // Navigate to Registration screen after location permission handling
+        Navigator.of(context).pushReplacementNamed(AppRoutes.register);
+      }
+    }
   }
 }
 

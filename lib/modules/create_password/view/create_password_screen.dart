@@ -7,7 +7,6 @@ import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../controller/password_validation.dart';
 import '../widgets/password_requirement_item.dart';
-import '../widgets/password_strength_indicator.dart';
 
 /// Create Password Screen
 /// 
@@ -33,7 +32,6 @@ class CreatePasswordScreen extends StatefulWidget {
 
 class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   final _validation = PasswordValidation();
 
@@ -49,7 +47,6 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   void dispose() {
     _passwordController.removeListener(_onPasswordChanged);
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -154,7 +151,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
                 children: [
-                  // Password Input Field
+                  // Password Input Field (Single field only)
                   TextField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
@@ -165,21 +162,21 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                         color: AppColors.inputPlaceholder,
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppBorderRadius.sm),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
                           color: AppColors.inputBorder,
                           width: 1,
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppBorderRadius.sm),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
                           color: AppColors.inputBorder,
                           width: 1,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppBorderRadius.sm),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
                           color: AppColors.primary,
                           width: 2,
@@ -203,18 +200,6 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                     ),
                   ),
 
-                  // Password Strength Indicator (shown when password is being typed)
-                  if (_passwordController.text.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: AppSpacing.sm,
-                        left: AppSpacing.lg,
-                      ),
-                      child: PasswordStrengthIndicator(
-                        password: _passwordController.text,
-                      ),
-                    ),
-
                   const SizedBox(height: AppSpacing.md),
 
                   // Update & Sign In Button
@@ -229,8 +214,22 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                             ? AppColors.primary
                             : AppColors.buttonDisabled,
                         disabledBackgroundColor: AppColors.buttonDisabled,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppBorderRadius.lg), // 28px
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.xxxxxl,
+                          vertical: AppSpacing.lg,
+                        ),
                       ),
-                      child: const Text('Update & Sign in'),
+                      child: const Text(
+                        'Update & Sign in',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
 

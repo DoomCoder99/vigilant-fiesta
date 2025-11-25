@@ -11,11 +11,6 @@ class LocalizationController extends GetxController {
   final RxString currentLanguage = 'en'.obs;
   final Rx<Locale> currentLocale = const Locale('en', 'US').obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // Language is loaded in main.dart before app starts
-  }
 
   /// Load saved language preference from SharedPreferences
   /// Made public for initialization in main.dart

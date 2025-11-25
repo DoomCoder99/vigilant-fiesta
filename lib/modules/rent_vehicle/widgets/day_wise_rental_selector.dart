@@ -141,7 +141,6 @@ class DayWiseRentalSelector extends StatelessWidget {
     final isCurrentMonth = date.month == currentMonth.month;
     final isSelected = controller.isDateSelected(date);
     final isInRange = controller.isDateInRange(date);
-    final isToday = _isToday(date);
     final isPast = date.isBefore(DateTime.now().subtract(const Duration(days: 1)));
 
     Color backgroundColor = Colors.transparent;
@@ -190,11 +189,6 @@ class DayWiseRentalSelector extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  bool _isToday(DateTime date) {
-    final now = DateTime.now();
-    return date.year == now.year && date.month == now.month && date.day == now.day;
   }
 }
 

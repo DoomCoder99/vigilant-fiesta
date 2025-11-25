@@ -18,22 +18,20 @@ class AndroidLocationModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Semi-transparent backdrop
-        Container(
-          color: Colors.black.withValues(alpha: 0.3),
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 319,
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
         ),
-
-        // Modal Dialog
-        Center(
-          child: Container(
-            width: 319,
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F1F1), // Light gray background
-              borderRadius: BorderRadius.circular(26),
-            ),
+        child: Container(
+          width: 319,
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F1F1), // Light gray background
+            borderRadius: BorderRadius.circular(26),
+          ),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -123,6 +121,7 @@ class AndroidLocationModal extends StatelessWidget {
 
                 // Permission Options
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     _AndroidPermissionButton(
                       text: 'While using the app',
@@ -150,16 +149,22 @@ class AndroidLocationModal extends StatelessWidget {
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 
   void _handlePermission(BuildContext context, String permissionType) async {
+    // Close the custom modal first
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
+
     // Import location permission service
     final permissionService = LocationPermissionService.instance;
 
-    // Request actual permission (or stub for testing)
-    final isGranted = await permissionService.requestPermission();
+    // Request actual system-generated permission
+    // This will show the native Android/iOS permission dialog
+    final isGranted = await permissionService.requestPermissionWithType(permissionType);
 
     if (isGranted) {
       // Permission granted - navigate to Registration
@@ -194,23 +199,31 @@ class _AndroidPermissionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(4),
-      child: Container(
-        width: 278,
-        height: 50,
-        decoration: BoxDecoration(
-          color: const Color(0xFFD2E4FC), // Light blue background
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: AppTextStyles.bodySmall.copyWith(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF171C23),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          width: double.infinity,
+          constraints: const BoxConstraints(
+            minHeight: 50,
+            maxWidth: 278,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          decoration: BoxDecoration(
+            color: const Color(0xFFD2E4FC), // Light blue background
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: AppTextStyles.bodySmall.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF171C23),
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ),

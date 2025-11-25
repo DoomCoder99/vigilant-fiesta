@@ -161,8 +161,6 @@ class _DateSelectionDrawerState extends State<DateSelectionDrawer> {
     final lastDayOfMonth = DateTime(currentMonth.year, currentMonth.month + 1, 0);
     final startWeekday = firstDayOfMonth.weekday % 7; // 0 = Sunday
 
-    // Calculate previous month's trailing days
-    final prevMonthLastDay = DateTime(currentMonth.year, currentMonth.month, 0);
     final List<DateTime?> days = [];
 
     // Add trailing days from previous month (hidden/transparent)

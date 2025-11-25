@@ -17,21 +17,19 @@ class IOSLocationModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Semi-transparent backdrop
-        Container(
-          color: Colors.black.withValues(alpha: 0.3),
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 270,
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
         ),
-
-        // Modal Dialog
-        Center(
-          child: Container(
-            width: 270,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.9),
-              borderRadius: BorderRadius.circular(16),
-            ),
+        child: Container(
+          width: 270,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -194,16 +192,22 @@ class IOSLocationModal extends StatelessWidget {
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 
   void _handlePermission(BuildContext context, String permissionType) async {
+    // Close the custom modal first
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
+
     // Import location permission service
     final permissionService = LocationPermissionService.instance;
 
-    // Request actual permission (or stub for testing)
-    final isGranted = await permissionService.requestPermission();
+    // Request actual system-generated permission
+    // This will show the native iOS permission dialog
+    final isGranted = await permissionService.requestPermissionWithType(permissionType);
 
     if (isGranted) {
       // Permission granted - navigate to Registration

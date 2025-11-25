@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Location Permission Service
 /// 
 /// Handles location permission requests following WDI patterns.
-/// Uses platform-specific permission handling.
-/// 
-/// TODO: Replace with actual permission package (e.g., permission_handler or geolocator)
-/// when backend integration is ready.
+/// Uses platform-specific permission handling via permission_handler package.
 class LocationPermissionService {
   LocationPermissionService._();
   static final LocationPermissionService instance = LocationPermissionService._();
@@ -15,46 +13,61 @@ class LocationPermissionService {
   /// Request location permission
   /// 
   /// Returns true if permission is granted, false otherwise.
-  /// 
-  /// DEV/TEST: Currently returns true for testing purposes.
-  /// TODO: Implement actual permission request using permission_handler or geolocator
+  /// Uses system-generated permission dialogs (Android/iOS native).
   Future<bool> requestPermission() async {
-    // Simulate permission request delay
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    // DEV/TEST: For now, accept any permission choice as granted
-    // TODO: Replace with actual permission request:
-    // 
-    // Example with permission_handler:
-    // final status = await Permission.location.request();
-    // return status.isGranted;
-    //
-    // Example with geolocator:
-    // LocationPermission permission = await Geolocator.requestPermission();
-    // return permission == LocationPermission.always || permission == LocationPermission.whileInUse;
-
-    if (kDebugMode) {
-      print('[LocationPermissionService] Permission granted (DEV mode)');
+    try {
+      // Request location permission using permission_handler
+      // This will show the system-generated permission dialog
+      final status = await Permission.location.request();
+      
+      if (kDebugMode) {
+        print('[LocationPermissionService] Permission status: $status');
+      }
+      
+      // Return true if permission is granted (always or whileInUse)
+      return status.isGranted;
+    } catch (e) {
+      if (kDebugMode) {
+        print('[LocationPermissionService] Error requesting permission: $e');
+      }
+      return false;
     }
-    return true;
   }
 
   /// Check if location permission is already granted
   /// 
-  /// DEV/TEST: Currently returns false to always show permission dialog.
-  /// TODO: Implement actual permission check
+  /// Returns true if permission is already granted, false otherwise.
   Future<bool> isPermissionGranted() async {
-    // TODO: Implement actual permission check:
-    // 
-    // Example with permission_handler:
-    // final status = await Permission.location.status;
-    // return status.isGranted;
-    //
-    // Example with geolocator:
-    // LocationPermission permission = await Geolocator.checkPermission();
-    // return permission == LocationPermission.always || permission == LocationPermission.whileInUse;
+    try {
+      final status = await Permission.location.status;
+      return status.isGranted;
+    } catch (e) {
+      if (kDebugMode) {
+        print('[LocationPermissionService] Error checking permission: $e');
+      }
+      return false;
+    }
+  }
 
-    return false; // Always show permission dialog for now
+  /// Request location permission with specific type (for Android)
+  /// 
+  /// [permissionType] can be:
+  /// - 'while_using_app': Request while using app permission
+  /// - 'only_once': Request one-time permission (Android 11+)
+  /// - 'denied': User denied permission
+  Future<bool> requestPermissionWithType(String permissionType) async {
+    if (permissionType == 'denied') {
+      return false;
+    }
+    
+    // For Android, we can request precise location permission
+    // For iOS, the system handles the permission type automatically
+    if (Platform.isAndroid && permissionType == 'only_once') {
+      // Android 11+ supports one-time permission
+      // Note: permission_handler handles this automatically
+    }
+    
+    return requestPermission();
   }
 
   /// Get platform type

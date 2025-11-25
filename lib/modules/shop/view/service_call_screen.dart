@@ -40,8 +40,6 @@ class _ServiceCallScreenState extends State<ServiceCallScreen> {
   bool _isMuted = false;
   bool _isSpeakerOn = false;
 
-  bool get _isOutgoing => widget.callType == 'outgoing';
-  bool get _isRinging => widget.callState == 'ringing';
   bool get _isOnCall => widget.callState == 'onCall';
 
   @override

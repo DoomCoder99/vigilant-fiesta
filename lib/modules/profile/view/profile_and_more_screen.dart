@@ -27,7 +27,7 @@ class ProfileAndMoreScreen extends StatelessWidget {
           icon: Icon(RtlHelper.getBackIcon(), color: AppColors.textPrimary),
           onPressed: () => Get.back(),
         ),
-        title: Text(
+        title: Obx(() => Text(
           'profile_and_more'.tr,
           style: const TextStyle(
             color: AppColors.textPrimary,
@@ -35,7 +35,7 @@ class ProfileAndMoreScreen extends StatelessWidget {
             fontWeight: FontWeight.w500,
             fontFamily: AppFonts.figtree,
           ),
-        ),
+        )),
         centerTitle: true,
         actions: [
           IconButton(

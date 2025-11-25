@@ -220,14 +220,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SocialLoginButton(
-                        icon: Icons.search, // Google icon placeholder
+                        iconAsset: 'assets/images/icon_search.png', // Google icon
                         onTap: () {
                           // TODO: Implement Google sign in
                         },
                       ),
                       const SizedBox(width: AppSpacing.md),
                       SocialLoginButton(
-                        icon: Icons.apple, // Apple icon placeholder
+                        icon: Icons.apple, // Apple icon (Material icon)
                         onTap: () {
                           // TODO: Implement Apple sign in
                         },
