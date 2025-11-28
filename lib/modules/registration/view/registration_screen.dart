@@ -153,14 +153,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       ),
                       contentPadding: const EdgeInsets.all(AppSpacing.lg),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        child: Icon(
-                          Icons.mic,
-                          size: 16,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
                     ),
                   ),
 
@@ -220,14 +212,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SocialLoginButton(
-                        iconAsset: 'assets/images/icon_search.png', // Google icon
+                        iconAsset: "assets/login/facebook.png",
+                        // icon: Icons.search, // Google icon placeholder
                         onTap: () {
                           // TODO: Implement Google sign in
                         },
                       ),
                       const SizedBox(width: AppSpacing.md),
                       SocialLoginButton(
-                        icon: Icons.apple, // Apple icon (Material icon)
+                        iconAsset: "assets/login/google.png",
+                        // icon: Icons.apple, // Apple icon placeholder
                         onTap: () {
                           // TODO: Implement Apple sign in
                         },

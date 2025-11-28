@@ -356,14 +356,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SocialLoginButton(
-                        icon: Icons.search, // Google icon placeholder
+                        iconAsset: "assets/login/facebook.png",
+                        // icon: Icons.search, // Google icon placeholder
                         onTap: () {
                           // TODO: Implement Google sign in
                         },
                       ),
                       const SizedBox(width: AppSpacing.md),
                       SocialLoginButton(
-                        icon: Icons.apple, // Apple icon placeholder
+                        iconAsset: "assets/login/google.png",
+                        // icon: Icons.apple, // Apple icon placeholder
                         onTap: () {
                           // TODO: Implement Apple sign in
                         },

@@ -118,16 +118,10 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return Container(
-        decoration: const BoxDecoration(
-          color: AppColors.backgroundWhite,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: const Center(
-          child: Padding(
-            padding: EdgeInsets.all(AppSpacing.xxl),
-            child: CircularProgressIndicator(),
-          ),
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.xxl),
+          child: CircularProgressIndicator(),
         ),
       );
     }

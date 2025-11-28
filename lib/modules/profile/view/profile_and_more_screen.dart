@@ -6,13 +6,14 @@ import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../core/utils/rtl_helper.dart';
 import '../controller/localization_controller.dart';
+import '../widgets/bottom_sheet.dart';
 import 'language_selection_screen.dart';
 import 'theme_selection_screen.dart';
 
 /// Profile & More Screen
-/// 
 /// Main hub screen for user profile and settings.
 /// Design Source: Figma frame "Profile & more" (node-id: 1-25349)
+
 class ProfileAndMoreScreen extends StatelessWidget {
   const ProfileAndMoreScreen({super.key});
 
@@ -21,21 +22,40 @@ class ProfileAndMoreScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         backgroundColor: AppColors.backgroundWhite,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(RtlHelper.getBackIcon(), color: AppColors.textPrimary),
-          onPressed: () => Get.back(),
+        leadingWidth: 45,
+        leading: Center(
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xffD6DEE8)),
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppColors.textPrimary,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
         ),
-        title: Obx(() => Text(
-          'profile_and_more'.tr,
+        title: Text(
+          'Profile & more',
           style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            fontFamily: AppFonts.figtree,
           ),
-        )),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -62,7 +82,6 @@ class ProfileAndMoreScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
               child: Row(
                 children: [
-                  // Profile Avatar
                   Container(
                     width: 80,
                     height: 80,
@@ -170,7 +189,6 @@ class ProfileAndMoreScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Settings List
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 25),
               decoration: BoxDecoration(
@@ -183,32 +201,32 @@ class ProfileAndMoreScreen extends StatelessWidget {
                     title: 'addresses'.tr,
                     onTap: () => Get.toNamed(AppRoutes.addresses),
                   ),
-                  const Divider(height: 1),
+                  const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: 'payment_methods'.tr,
                     onTap: () => Get.toNamed(AppRoutes.paymentMethods),
                   ),
-                  const Divider(height: 1),
+                  const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: 'wallet'.tr,
                     onTap: () => Get.toNamed(AppRoutes.wallet),
                   ),
-                  const Divider(height: 1),
+                   const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: 'coupons_loyalty'.tr,
                     onTap: () => Get.toNamed(AppRoutes.coupons),
                   ),
-                  const Divider(height: 1),
+                   const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: 'documents'.tr,
                     onTap: () => Get.toNamed(AppRoutes.documents),
                   ),
-                  const Divider(height: 1),
+                   const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: 'help'.tr,
                     onTap: () => Get.toNamed(AppRoutes.helpFaq),
                   ),
-                  const Divider(height: 1),
+                   const Divider(height: 1,color: Color(0xffD6DEE8),),
                   Obx(() {
                     final controller = Get.find<LocalizationController>();
                     return _SettingsListItem(
@@ -223,7 +241,7 @@ class ProfileAndMoreScreen extends StatelessWidget {
                       },
                     );
                   }),
-                  const Divider(height: 1),
+                   const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: '${'theme'.tr}: ${'theme_light'.tr}',
                     onTap: () {
@@ -235,31 +253,10 @@ class ProfileAndMoreScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  const Divider(height: 1),
+                   const Divider(height: 1,color: Color(0xffD6DEE8),),
                   _SettingsListItem(
                     title: 'logout'.tr,
-                    onTap: () {
-                      // TODO: Implement logout logic
-                      Get.dialog(
-                        AlertDialog(
-                          title: Text('logout'.tr),
-                          content: Text('logout_confirmation'.tr),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Get.back(),
-                              child: Text('cancel'.tr),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                // TODO: Clear session and navigate to sign in
-                                Get.back();
-                              },
-                              child: Text('logout'.tr),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                      onTap: showSignOutSheet,
                   ),
                 ],
               ),
@@ -268,118 +265,154 @@ class ProfileAndMoreScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Refer & Earn Section
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 25),
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppColors.backgroundWhite,
-                borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'refer_earn'.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: AppFonts.figtree,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'refer_earn_desc'.tr,
-                    style: AppTextStyles.caption.copyWith(
-                      fontSize: 10,
-                      height: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Referral Link
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundWhite,
-                      border: Border.all(color: const Color(0xFFDADADA)),
-                      borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'www.amozit.com/referral/483BBJ78xh64',
-                            style: AppTextStyles.caption.copyWith(
-                              color: AppColors.textPrimary.withOpacity(0.5),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Image.asset(
-                            'assets/profile/copy_icon.png',
-                            width: 16,
-                            height: 16,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.copy, size: 16);
-                            },
-                          ),
-                          onPressed: () {
-                            // TODO: Copy to clipboard
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('referral_link_copied'.tr)),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  // Share Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Implement share functionality
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/profile/share_icon.png',
-                            width: 12,
-                            height: 12,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.share, size: 12, color: Colors.white);
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'share_with_friends'.tr,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: AppFonts.figtree,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: _buildReferAndEarn(),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 80),
           ],
         ),
+      ),
+    );
+  }
+  void showSignOutSheet() {
+    showConfirmationSheet(
+      title: "Sign Out",
+      subtitle: "You are about to sign out of Amozit.\nAre you sure to do this?",
+      cancelText: "No, Go Back",
+      confirmText: "Yes, Sign out",
+      confirmColor: const Color(0xFFF14336),
+      icon: Image.asset(
+        "assets/profile/exit 1.png",
+        height: 140,
+      ),
+      onConfirm: () {
+        // your sign-out logic
+        Get.back();
+      },
+    );
+  }
+
+
+
+
+
+
+
+  Widget _buildReferAndEarn() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Title
+              Text(
+                "Refer & Earn Big!",
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              /// Subtitle
+              Text(
+                "Invite your friends and earn rewards.\n"
+                    "The more you share, the more you gain.",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black54,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              /// Referral link box
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300, width: 1.5),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "www.amozit.com/referral/483BBJ78xh64",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.copy, size: 22, color: Colors.grey.shade600),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              /// Share button
+              SizedBox(
+                width: 200,
+                height: 52,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xff7132F4),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      Icon(Icons.share, color: Colors.white),
+                      SizedBox(width: AppSpacing.xl,),
+                      Text(
+                        "Share With Friends",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          /// Top-right gift
+          Positioned(
+            top: 20,
+            right: 10,
+            child: Image.asset(
+              "assets/home/image-removebg-preview (4) 2.png",
+              scale: 4,
+            ),
+          ),
+
+          /// Bottom-right gift
+          Positioned(
+            bottom: -100,
+            right: -10,
+            child: Image.asset(
+              "assets/home/image-removebg-preview (4) 1.png",
+              scale: 4,
+            ),
+          ),
+        ],
       ),
     );
   }

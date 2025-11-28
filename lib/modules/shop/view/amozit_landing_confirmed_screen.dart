@@ -14,28 +14,29 @@ import '../../quick_trigger/view/quick_trigger_host.dart';
 import '../widgets/location_bottom_sheet.dart';
 
 /// Amozit Landing Confirmed Screen
-/// 
+///
 /// Main landing screen after user confirmation with bottom navigation.
 /// Design Source: Figma frame "Amozit Landing Confirmed" (node-id: 1-2517)
+
 class AmozitLandingConfirmedScreen extends StatefulWidget {
   const AmozitLandingConfirmedScreen({super.key});
 
   @override
-  State<AmozitLandingConfirmedScreen> createState() => _AmozitLandingConfirmedScreenState();
+  State<AmozitLandingConfirmedScreen> createState() =>
+      _AmozitLandingConfirmedScreenState();
 }
 
-class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScreen> {
-  int _currentIndex = 0; // 0 = Home, 1 = Shop, 2 = Orders, 3 = Cart
-  int _currentBannerIndex = 0; // Current banner carousel index
+class _AmozitLandingConfirmedScreenState
+    extends State<AmozitLandingConfirmedScreen> {
+  int _currentIndex = 0;
+  int _currentBannerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
       body: QuickAccessFirstTimeOverlay(
-        child: QuickTriggerHost(
-          child: _buildBody(),
-        ),
+        child: QuickTriggerHost(child: _buildBody()),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
@@ -49,19 +50,20 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
           const SizedBox(height: AppSpacing.xxxxl),
           // Banner section (includes Location & Profile overlay and Search bar)
           _buildBanner(),
-          const SizedBox(height: AppSpacing.xxl),
+
+          // const SizedBox(height: AppSpacing.xxl),
           // Quick Services section
           _buildQuickServices(),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xl),
           // Shop by category section
           _buildShopByCategory(),
           const SizedBox(height: AppSpacing.xxl),
           // Promotional banner
           _buildPromotionalBanner(),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xl),
           // Top rated services section
           _buildTopRatedServices(),
-          const SizedBox(height: AppSpacing.xxl),
+          // const SizedBox(height: AppSpacing.xl),
           // Refresh banner
           _buildRefreshBanner(),
           const SizedBox(height: AppSpacing.xxl),
@@ -70,12 +72,14 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
           const SizedBox(height: AppSpacing.xxl),
           // Bose promotional banner
           _buildBoseBanner(),
-          const SizedBox(height: AppSpacing.xxl),
+          // const SizedBox(height: AppSpacing.xxl),
           // Top rated women's salons section
           _buildTopRatedSalons(),
           const SizedBox(height: AppSpacing.xxl),
           // Refer & Earn section
           _buildReferAndEarn(),
+          const SizedBox(height: AppSpacing.xxxxxl), // Space for bottom nav
+          const SizedBox(height: AppSpacing.xxxxxl), // Space for bottom nav
           const SizedBox(height: AppSpacing.xxxxxl), // Space for bottom nav
         ],
       ),
@@ -111,7 +115,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
       },
     ];
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Stack(
         children: [
@@ -137,7 +141,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                     // Background image
                     Positioned.fill(
                       child: AssetHelper.loadImageOrPlaceholder(
-                        assetPath: banner['image'] as String,
+                        assetPath: "assets/home/banner.png",
                         width: double.infinity,
                         height: double.infinity,
                         fit: BoxFit.cover,
@@ -247,7 +251,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
           _buildSearchBarOverlay(),
           // Pagination dots
           Positioned(
-            bottom: AppSpacing.lg,
+            bottom: AppSpacing.xxxl,
             left: 0,
             right: 0,
             child: Row(
@@ -268,6 +272,23 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               }),
             ),
           ),
+          Align(
+            alignment: AlignmentGeometry.bottomCenter,
+            child: Container(
+              height: 15,
+              color: Colors.transparent, // Outer black container
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFF5F5F5),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(100),
+                    topRight: Radius.circular(100),
+                  ),
+                ),
+                width: double.infinity,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -275,21 +296,22 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
 
   Widget _buildLocationAndProfile() {
     return Positioned(
-      top: 44, // Position from top of banner
+      top: 44,
       left: AppSpacing.lg,
       right: AppSpacing.lg,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Location section - clickable
           GestureDetector(
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => const LocationBottomSheet(),
-              );
+              Get.toNamed(AppRoutes.addLocation);
+
+              // showModalBottomSheet(
+              //   context: context,
+              //   isScrollControlled: true,
+              //   backgroundColor: Colors.transparent,
+              //   builder: (context) => const LocationBottomSheet(),
+              // );
             },
             child: Row(
               children: [
@@ -309,7 +331,11 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                           ),
                         ),
                         const SizedBox(width: AppSpacing.xs),
-                        const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 16),
+                        const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.white,
+                          size: 16,
+                        ),
                       ],
                     ),
                     Text(
@@ -409,64 +435,73 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
 
   Widget _buildQuickServices() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Quick Services',
-                style: AppTextStyles.bodyMedium.copyWith(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
-              ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'See all',
-                  style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.primary,
+          SizedBox(
+            height: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Quick Services',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: AppSpacing.lg,
-              mainAxisSpacing: AppSpacing.lg,
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'See all',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: Colors.black, decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            itemCount: 8,
-            itemBuilder: (context, index) {
-              final services = [
-                'Home maintenance',
-                'cleaning & pest control',
-                'sports & fitness',
-                'rent a vehicle',
-                'driving instructor',
-                "women's salon & spa",
-                'gas cylinder booking',
-                'painting services',
-              ];
-              final icons = [
-                Icons.home_repair_service,
-                Icons.cleaning_services,
-                Icons.fitness_center,
-                Icons.directions_car,
-                Icons.drive_eta,
-                Icons.face,
-                Icons.local_gas_station,
-                Icons.format_paint,
-              ];
-              return _buildServiceCard(services[index], icons[index]);
-            },
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                childAspectRatio: 0.8,
+                crossAxisSpacing: 25,
+
+                mainAxisSpacing: AppSpacing.lg,
+              ),
+              itemCount: 8,
+              itemBuilder: (context, index) {
+                final services = [
+                  'Home maintenance',
+                  'cleaning & pest control',
+                  'sports & fitness',
+                  'rent a vehicle',
+                  'driving instructor',
+                  "women's salon & spa",
+                  'gas cylinder booking',
+                  'painting services',
+                ];
+                final icons = [
+                  Icons.home_repair_service,
+                  Icons.cleaning_services,
+                  Icons.fitness_center,
+                  Icons.directions_car,
+                  Icons.drive_eta,
+                  Icons.face,
+                  Icons.local_gas_station,
+                  Icons.format_paint,
+                ];
+                return _buildServiceCard(services[index], icons[index]);
+              },
+            ),
           ),
         ],
       ),
@@ -494,7 +529,8 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: Colors.white,
+              border: Border.all(color: Color(0xffD6DEE8)),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: AppColors.primary, size: 32),
@@ -503,9 +539,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
           Text(
             name,
             textAlign: TextAlign.center,
-            style: AppTextStyles.bodySmall.copyWith(
-              fontSize: 10,
-            ),
+            style: AppTextStyles.bodySmall.copyWith(fontSize: 10),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -526,9 +560,9 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               Text(
                 'Shop by category',
                 style: AppTextStyles.bodyMedium.copyWith(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
-              ),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -597,66 +631,75 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
 
   Widget _buildPromotionalBanner() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      height: 140,
+      height: 150,
       decoration: BoxDecoration(
-        color: const Color(0xFFD5B591),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(AppBorderRadius.sm),
       ),
       child: Stack(
         children: [
-          Positioned(
-            left: AppSpacing.lg,
-            top: AppSpacing.lg,
-            child: Container(
-              width: 146,
-              height: 140,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-              ),
-              child: AssetHelper.loadImageOrPlaceholder(
-                assetPath: assets.AssetPaths.promoRectangle26, // SIBERT banner image
-                width: 146,
-                height: 140,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            right: AppSpacing.lg,
-            top: AppSpacing.lg,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'Get 20% off on your\nfirst consultation',
-                  textAlign: TextAlign.right,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.sm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-                  ),
-                  child: Text(
-                    'SIBERT',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+          CarouselSlider.builder(
+            itemCount: 4,
+            itemBuilder: (context, index, realIndex) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                child: Container(
+                  height: 150,
+                  decoration: BoxDecoration(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                         Radius.circular(10),
+                        ),
+                        child: AssetHelper.loadImageOrPlaceholder(
+                          assetPath: "assets/home/banner3.png",
+                          width: MediaQuery.of(context).size.width-40,
+                          height: 140,
+                          // fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ],
+              );
+            },
+            options: CarouselOptions(
+              height: 400,
+              viewportFraction: 0.88,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 4),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentBannerIndex = index;
+                });
+              },
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(4, (index) {
+                final isActive = index == _currentBannerIndex;
+                return Container(
+                  width: isActive ? 20 : 4,
+                  height: 4,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    color: isActive
+                        ? Colors.grey
+                        : Colors.grey.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                );
+              }),
             ),
           ),
         ],
@@ -685,15 +728,16 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                 child: Text(
                   'See all',
                   style: AppTextStyles.bodySmall.copyWith(
+                    decoration: TextDecoration.underline,
                     color: AppColors.primary,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
+          // const SizedBox(height: AppSpacing.lg),
           SizedBox(
-            height: 268,
+            height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 8,
@@ -709,7 +753,45 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                         height: 92,
                         decoration: BoxDecoration(
                           color: AppColors.inputBorder,
-                          borderRadius: BorderRadius.circular(AppBorderRadius.sm),
+                          borderRadius: BorderRadius.circular(
+                            AppBorderRadius.sm,
+                          ),
+                        ),
+                        child: const Icon(Icons.image, size: 40),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        'Service Name',
+                        style: AppTextStyles.bodySmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(
+            height: 150,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 8,
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 92,
+                  margin: const EdgeInsets.only(right: AppSpacing.lg),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 92,
+                        height: 92,
+                        decoration: BoxDecoration(
+                          color: AppColors.inputBorder,
+                          borderRadius: BorderRadius.circular(
+                            AppBorderRadius.sm,
+                          ),
                         ),
                         child: const Icon(Icons.image, size: 40),
                       ),
@@ -735,22 +817,34 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       height: 340,
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFF1B5E20),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(AppBorderRadius.sm),
       ),
       child: Stack(
         children: [
+          ClipRRect(
+            borderRadius: BorderRadius.all(
+               Radius.circular(20),
+            ),
+            child: Image.asset(
+              "assets/home/refresh.png",
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover
+            ),
+          ),
           Positioned(
-            left: AppSpacing.xxl,
+            right: AppSpacing.xxl,
             top: AppSpacing.xxl,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   'REFRSH',
                   style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 40,
+                    fontSize: 35,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                   ),
@@ -758,27 +852,31 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   'Super Clean Home\nInterior Cleaning Services',
+                  textAlign: TextAlign.end,
                   style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 18,
+                    fontSize: 14,
+
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xxl),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppColors.textPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+                SizedBox(
+                  height: 40,
+                  width: 100,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  child: Text(
-                    'Book Now',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w600,
+                    child: Center(
+                      child: Text(
+                        'Book Now',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -802,9 +900,9 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               Text(
                 'Bestsellers',
                 style: AppTextStyles.bodyMedium.copyWith(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
-              ),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -819,20 +917,24 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: AppSpacing.lg,
-              mainAxisSpacing: AppSpacing.lg,
-              childAspectRatio: 0.75,
+          // const SizedBox(height: AppSpacing.lg),
+          MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: AppSpacing.lg,
+                mainAxisSpacing: AppSpacing.lg,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return _buildProductCard(index);
+              },
             ),
-            itemCount: 6,
-            itemBuilder: (context, index) {
-              return _buildProductCard(index);
-            },
           ),
         ],
       ),
@@ -875,10 +977,7 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
                           size: 12,
                           color: Colors.amber,
                         ),
-                        Text(
-                          '5',
-                          style: AppTextStyles.caption,
-                        ),
+                        Text('5', style: AppTextStyles.caption),
                       ],
                     ),
                   ),
@@ -906,62 +1005,60 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
   }
 
   Widget _buildBoseBanner() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+    return SizedBox(
       height: 198,
-      decoration: BoxDecoration(
-        color: const Color(0xFFD5B591),
-        borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-      ),
       child: Stack(
         children: [
-          Positioned(
-            left: AppSpacing.lg,
-            top: AppSpacing.xxl,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Unlimited music, limited stock.',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+          CarouselSlider.builder(
+            itemCount: 4,
+            itemBuilder: (context, index, realIndex) {
+              return Container(
+                decoration: BoxDecoration(),
+                child: Positioned.fill(
+                  child: AssetHelper.loadImageOrPlaceholder(
+                    assetPath: "assets/home/Banner section.png",
+                    width: double.infinity,
+                    height: double.infinity,
+
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.lg),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.sm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-                  ),
-                  child: Text(
-                    'BOSE',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+              );
+            },
+            options: CarouselOptions(
+              height: 400,
+              viewportFraction: 1.0,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 4),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentBannerIndex = index;
+                });
+              },
             ),
           ),
           Positioned(
-            right: -AppSpacing.xxl,
-            top: 0,
-            child: Container(
-              width: 221,
-              height: 188,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-              ),
-              child: const Icon(Icons.headphones, size: 100),
+            bottom: AppSpacing.xl,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(4, (index) {
+                final isActive = index == _currentBannerIndex;
+                return Container(
+                  width: isActive ? 20 : 4,
+                  height: 4,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    color: isActive
+                        ? Colors.grey
+                        : Colors.grey.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                );
+              }),
             ),
           ),
         ],
@@ -981,9 +1078,9 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
               Text(
                 "Top rated women's salons",
                 style: AppTextStyles.bodyMedium.copyWith(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
-              ),
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               TextButton(
                 onPressed: () {},
@@ -997,47 +1094,21 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
             ],
           ),
           const SizedBox(height: AppSpacing.lg),
-          SizedBox(
-            height: 304,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 8,
+          MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: AppSpacing.lg,
+                mainAxisSpacing: AppSpacing.lg,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: 6,
               itemBuilder: (context, index) {
-                return Container(
-                  width: 92,
-                  margin: const EdgeInsets.only(right: AppSpacing.lg),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 92,
-                        height: 92,
-                        decoration: BoxDecoration(
-                          color: AppColors.inputBorder,
-                          borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-                        ),
-                        child: const Icon(Icons.image, size: 40),
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(
-                        'Salon Name',
-                        style: AppTextStyles.bodyMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Row(
-                        children: [
-                          const Icon(Icons.location_on, size: 12),
-                          Text(
-                            'Location',
-                            style: AppTextStyles.caption,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
+                return _buildProductCard(index);
               },
             ),
           ),
@@ -1047,77 +1118,121 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
   }
 
   Widget _buildReferAndEarn() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      padding: const EdgeInsets.all(AppSpacing.xxxxl),
-      decoration: BoxDecoration(
-        color: AppColors.backgroundWhite,
-        border: Border.all(color: AppColors.primary),
-        borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Refer & Earn big!',
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            'Invite your friends and earn rewards. The more you share, the more you gain.',
-            style: AppTextStyles.bodySmall,
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.md,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.inputBorder),
-              borderRadius: BorderRadius.circular(AppBorderRadius.sm),
-            ),
-            child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    'www.amozit.com/referral/483BBJ78xh64',
-                    style: AppTextStyles.bodySmall,
+                /// Title
+                Text(
+                  "Refer & Earn Big!",
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.content_copy, size: 16),
-                  onPressed: () {},
+
+                const SizedBox(height: 8),
+
+                /// Subtitle
+                Text(
+                  "Invite your friends and earn rewards.\n"
+                      "The more you share, the more you gain.",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black54,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// Referral link box
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300, width: 1.5),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "www.amozit.com/referral/483BBJ78xh64",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                      ),
+                      Icon(Icons.copy, size: 22, color: Colors.grey.shade600),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// Share button
+                SizedBox(
+                  width: 200,
+                  height: 52,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xff7132F4),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Icon(Icons.share, color: Colors.white),
+                         SizedBox(width: AppSpacing.xl,),
+                         Text(
+                          "Share With Friends",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          ElevatedButton.icon(
-            onPressed: () {},
-            icon: AssetHelper.loadImageOrIcon(
-              assetPath: assets.AssetPaths.iconShare,
-              fallbackIcon: Icons.share,
-              size: 12,
-            ),
-            label: Text(
-              'share with friends',
-              style: AppTextStyles.bodySmall,
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.backgroundWhite,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+
+            /// Top-right gift
+            Positioned(
+              top: 20,
+              right: 10,
+              child: Image.asset(
+                "assets/home/image-removebg-preview (4) 2.png",
+                scale: 4,
               ),
             ),
-          ),
-        ],
+
+            /// Bottom-right gift
+            Positioned(
+              bottom: -100,
+              right: -10,
+              child: Image.asset(
+                "assets/home/image-removebg-preview (4) 1.png",
+               scale: 4,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1152,4 +1267,3 @@ class _AmozitLandingConfirmedScreenState extends State<AmozitLandingConfirmedScr
     return assets.AssetPaths.productPlaceholder; // Fallback to placeholder
   }
 }
-

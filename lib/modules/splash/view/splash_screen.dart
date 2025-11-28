@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
     
     // Initialize wave animation controller
     _waveController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(seconds: 10),
       vsync: this,
     )..repeat(reverse: true);
 
@@ -80,22 +80,13 @@ class _SplashScreenState extends State<SplashScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Robot Character Illustration with Waving Animation
-                  AnimatedBuilder(
-                    animation: _waveAnimation,
-                    builder: (context, child) {
-                      return Transform.rotate(
-                        angle: _waveAnimation.value,
-                        alignment: Alignment.topRight,
-                        child: SizedBox(
-                          width: 101,
-                          height: 149,
-                          child: Image.asset(
-                            'assets/images/robot_character.png',
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      );
-                    },
+                  SizedBox(
+                    width: 101,
+                    height: 149,
+                    child: Image.asset(
+                      'assets/images/robot_character.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
 
                   const SizedBox(height: 32),

@@ -70,6 +70,7 @@ import 'modules/subscription/view/turf_detail_screen.dart';
 import 'modules/subscription/view/subscription_cart_screen.dart';
 import 'modules/subscription/view/subscription_payment_method_screen.dart';
 import 'modules/subscription/view/subscription_payment_success_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -95,23 +96,18 @@ class MainApp extends StatelessWidget {
     
     return Obx(() {
       final currentLocale = localizationController.currentLocale.value;
-      
       return GetMaterialApp(
         title: 'AMOZIT Customer',
         theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        
-        // Localization setup
         translations: LocalizationService(),
         locale: currentLocale,
+
         fallbackLocale: const Locale('en', 'US'),
         supportedLocales: const [
           Locale('en', 'US'),
           Locale('ar', 'SA'),
         ],
-        
-        // RTL Support - GetMaterialApp automatically handles text direction
-        // based on locale, but we ensure it's explicitly set
         builder: (context, child) {
           return Directionality(
             textDirection: currentLocale.languageCode == 'ar' 
@@ -120,7 +116,12 @@ class MainApp extends StatelessWidget {
             child: child ?? const SizedBox.shrink(),
           );
         },
-        
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        // home: ProfileEditScreen(),
         initialRoute: AppRoutes.splash,
       routes: {
         AppRoutes.splash: (context) => const SplashScreen(),

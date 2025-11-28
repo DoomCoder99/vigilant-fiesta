@@ -60,9 +60,9 @@ class AssetHelper {
             color: Colors.grey[300],
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(
-            Icons.image,
-            size: 40,
+          child: Image.asset(
+            assetPath,
+            // size: 40,
             color: Colors.grey,
           ),
         );

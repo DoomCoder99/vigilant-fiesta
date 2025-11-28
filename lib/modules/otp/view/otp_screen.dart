@@ -204,7 +204,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     children: List.generate(4, (index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          right: index < 3 ? AppSpacing.md : 0,
+                          right: index < 4 ? AppSpacing.md : 0,
                         ),
                         child: OtpInputField(
                           controller: _otpControllers[index],

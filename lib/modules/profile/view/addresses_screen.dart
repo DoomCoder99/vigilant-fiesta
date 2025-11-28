@@ -1,3 +1,4 @@
+import 'package:amoz_customer/core/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/routes/app_routes.dart';
@@ -5,7 +6,7 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
 
 /// Addresses Screen
-/// 
+///
 /// Lists user's saved addresses.
 /// Design Source: Figma frame "Addresses" (node-id: 1-25533)
 class AddressesScreen extends StatelessWidget {
@@ -13,16 +14,17 @@ class AddressesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mock addresses data
     final addresses = [
       {
         'type': 'Home',
-        'address': '12/2, Al Rawahy Building,\nAl Nahda Street, Building 123\nAl Khuwair, Muscat, OMN 112',
+        'address':
+            '12/2, Al Rawahy Building,\nAl Nahda Street, Building 123\nAl Khuwair, Muscat, OMN 112',
         'isDefault': true,
       },
       {
         'type': 'Work',
-        'address': '12/2, Al Rawahy Building,\nAl Nahda Street, Building 123\nAl Khuwair, Muscat, OMN 112',
+        'address':
+            '12/2, Al Rawahy Building,\nAl Nahda Street, Building 123\nAl Khuwair, Muscat, OMN 112',
         'isDefault': false,
       },
     ];
@@ -32,9 +34,28 @@ class AddressesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.backgroundWhite,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => Get.back(),
+        leadingWidth: 45,
+        leading: Center(
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xffD6DEE8)),
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppColors.textPrimary,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
         ),
         title: const Text(
           'Addresses',
@@ -49,7 +70,7 @@ class AddressesScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,7 +78,8 @@ class AddressesScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: addresses.length,
-                separatorBuilder: (context, index) => const Divider(height: 1),
+                separatorBuilder: (context, index) =>
+                    const Divider(height: 1, color: Color(0xffD6DEE8)),
                 itemBuilder: (context, index) {
                   final address = addresses[index];
                   return _AddressCard(
@@ -70,8 +92,16 @@ class AddressesScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 12),
+              Divider(height: 1, color: Color(0xffD6DEE8)),
+              SizedBox(height: AppSpacing.xl,),
               TextButton.icon(
+                iconAlignment: IconAlignment.end,
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero, // remove internal padding
+                  minimumSize: Size(0, 0), // remove minimum tap target
+                  tapTargetSize:
+                      MaterialTapTargetSize.shrinkWrap, // remove extra height
+                ),
                 onPressed: () {
                   Get.toNamed(AppRoutes.addLocation);
                 },
@@ -80,7 +110,11 @@ class AddressesScreen extends StatelessWidget {
                   width: 12,
                   height: 12,
                   errorBuilder: (context, error, stackTrace) {
-                    return const Icon(Icons.add, size: 12, color: AppColors.primary);
+                    return const Icon(
+                      Icons.add,
+                      size: 12,
+                      color: AppColors.primary,
+                    );
                   },
                 ),
                 label: const Text(
@@ -119,7 +153,7 @@ class _AddressCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
             child: Column(
@@ -127,7 +161,10 @@ class _AddressCard extends StatelessWidget {
               children: [
                 // Address Type Badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     border: Border.all(color: const Color(0xFFD6DEE8)),
@@ -137,9 +174,9 @@ class _AddressCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset(
-                        type == 'Home' 
-                          ? 'assets/profile/home_icon.png'
-                          : 'assets/profile/work_icon.png',
+                        type == 'Home'
+                            ? 'assets/profile/home_icon.png'
+                            : 'assets/profile/work_icon.png',
                         width: 12,
                         height: 12,
                         errorBuilder: (context, error, stackTrace) {
@@ -172,20 +209,16 @@ class _AddressCard extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            icon: Image.asset(
-              'assets/profile/edit_icon.png',
-              width: 16,
-              height: 16,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.edit, size: 16, color: AppColors.textPrimary);
-              },
-            ),
-            onPressed: onEdit,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(height: 3),
+              Icon(Icons.edit, size: 16, color: AppColors.textPrimary),
+            ],
           ),
         ],
       ),
     );
   }
 }
-

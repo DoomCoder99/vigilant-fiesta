@@ -4,6 +4,7 @@ import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
 import '../../../../core/theme/typography.dart';
+import '../widgets/bottom_sheet.dart';
 
 /// Profile Edit Screen
 /// 
@@ -46,9 +47,28 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.backgroundWhite,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => Get.back(),
+        leadingWidth: 45,   // <-- This controls the size of the leading area
+        leading: Center(
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                height: 45,       // <-- Now your size will work
+                width: 45,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xffD6DEE8)),
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppColors.textPrimary,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
         ),
         title: const Text(
           'Edit profile',
@@ -61,6 +81,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         ),
         centerTitle: true,
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -96,6 +117,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       'assets/profile/edit_icon.png',
                       width: 12,
                       height: 12,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return const Icon(Icons.edit, size: 12, color: AppColors.textPrimary);
                       },
@@ -127,7 +149,12 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   ),
                   const SizedBox(height: 12),
                   TextButton(
-                    onPressed: _showDeleteAccountConfirmation,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,       // remove internal padding
+                      minimumSize: Size(0, 0),        // remove minimum tap target
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap, // remove extra height
+                    ),
+                    onPressed: showDeleteAccountSheet,
                     child: const Text(
                       'Delete account',
                       style: TextStyle(
@@ -170,6 +197,25 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           ),
         ),
       ),
+    );
+  }
+
+
+  void showDeleteAccountSheet() {
+    showConfirmationSheet(
+      title: "Delete Account?",
+      subtitle: "This will delete your account permanently.\nYou sure to delete?",
+      cancelText: "No, Go Back",
+      confirmText: "Yes, Delete Account",
+      confirmColor: const Color(0xFFF14336),
+      icon: Image.asset(
+        "assets/profile/sick 1.png",
+        height: 140,
+      ),
+      onConfirm: () {
+        // your delete logic
+        Get.back();
+      },
     );
   }
 }
@@ -215,14 +261,6 @@ class _FormField extends StatelessWidget {
               borderSide: const BorderSide(color: AppColors.inputBorder),
             ),
             contentPadding: const EdgeInsets.all(16),
-            suffixIcon: Image.asset(
-              'assets/profile/mic_icon.png',
-              width: 16,
-              height: 16,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.mic, size: 16, color: AppColors.textPrimary);
-              },
-            ),
           ),
         ),
       ],

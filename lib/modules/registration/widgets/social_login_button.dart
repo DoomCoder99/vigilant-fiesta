@@ -15,7 +15,7 @@ class SocialLoginButton extends StatelessWidget {
     this.icon,
     this.iconAsset,
     required this.onTap,
-  }) : assert(icon != null || iconAsset != null, 'Either icon or iconAsset must be provided');
+  });
 
   @override
   Widget build(BuildContext context) {

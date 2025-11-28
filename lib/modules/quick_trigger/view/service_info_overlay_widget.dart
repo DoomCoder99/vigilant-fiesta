@@ -126,7 +126,6 @@ class ServiceInfoOverlayWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.md),
-          // Service description
           Text(
             'Your service for ${controller.serviceName.value ?? "Service"} is on the way!',
             textAlign: TextAlign.center,

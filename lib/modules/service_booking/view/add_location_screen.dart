@@ -55,14 +55,14 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
           children: [
             // Map view (stubbed with image)
             Positioned(
-              top: 96,
+              top: 0,
               left: 0,
               right: 0,
-              height: 574,
+              height: 600,
               child: AssetHelper.loadImageOrPlaceholder(
-                assetPath: AssetPaths.mapFarwaniyah,
+                assetPath: "assets/map/map.png",
                 width: double.infinity,
-                height: 574,
+                height: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
@@ -73,7 +73,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
               left: 0,
               right: 0,
               child: Container(
-                height: 100,
+                height: 65,
                 color: AppColors.backgroundWhite,
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                 child: Column(
@@ -123,7 +123,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
 
             // Search bar
             Positioned(
-              top: 120,
+              top: 80,
               left: AppSpacing.md,
               right: AppSpacing.md,
               child: Container(
@@ -199,22 +199,25 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                     size: const Size(24, 12),
                     painter: _ArrowPainter(),
                   ),
-                  const SizedBox(height: 52),
                   // Pin
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Outer circle
-                      AssetHelper.loadImageOrPlaceholder(
-                        assetPath: AssetPaths.pinEllipseOuter,
-                        width: 48,
+                      Container(
                         height: 48,
+                        width: 48,
+                        decoration: BoxDecoration(
+                          color: Color(0xff8B9D71).withOpacity(0.5),
+                           borderRadius: BorderRadius.circular(100),
+                        ),
                       ),
-                      // Inner circle
-                      AssetHelper.loadImageOrPlaceholder(
-                        assetPath: AssetPaths.pinEllipseInner,
-                        width: 16,
+                      Container(
                         height: 16,
+                        width: 16,
+                        decoration: BoxDecoration(
+                          color: Color(0xff8B9D71),
+                           borderRadius: BorderRadius.circular(100),
+                        ),
                       ),
                     ],
                   ),
@@ -291,103 +294,106 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Title row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Selected Location',
-                          style: AppTextStyles.headingSmall.copyWith(
-                            fontSize: 14,
-                            color: AppColors.textPrimary,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Title row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Selected Location',
+                            style: AppTextStyles.headingSmall.copyWith(
+                              fontSize: 14,
+                              color: AppColors.textPrimary,
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: AssetHelper.loadImageOrIcon(
-                            assetPath: AssetPaths.iconCloseSmall,
-                            fallbackIcon: Icons.close,
-                            size: 20,
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).pop(),
+                            child: AssetHelper.loadImageOrIcon(
+                              assetPath: AssetPaths.iconCloseSmall,
+                              fallbackIcon: Icons.close,
+                              size: 20,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
 
-                    // Selected location display
-                    Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: AppColors.backgroundWhite,
-                            border: Border.all(color: AppColors.inputBorder),
-                            borderRadius: BorderRadius.circular(28),
+                      // Selected location display
+                      Row(
+                        children: [
+                          Container(
+                            width: 36,
+                            height: 36,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: AppColors.backgroundWhite,
+                              border: Border.all(color: AppColors.inputBorder),
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                            child: AssetHelper.loadImageOrIcon(
+                              assetPath: AssetPaths.iconLocationPin,
+                              fallbackIcon: Icons.location_on,
+                              size: 16,
+                            ),
                           ),
-                          child: AssetHelper.loadImageOrIcon(
-                            assetPath: AssetPaths.iconLocationPin,
-                            fallbackIcon: Icons.location_on,
-                            size: 16,
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _selectedLocation,
-                                style: AppTextStyles.bodyMedium.copyWith(
-                                  fontSize: 14,
-                                  color: AppColors.textPrimary,
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _selectedLocation,
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    fontSize: 14,
+                                    color: AppColors.textPrimary,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                _selectedAddress,
-                                style: AppTextStyles.bodySmall.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.textPrimary.withOpacity(0.6),
+                                Text(
+                                  _selectedAddress,
+                                  style: AppTextStyles.bodySmall.copyWith(
+                                    fontSize: 12,
+                                    color: AppColors.textPrimary.withOpacity(0.6),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
 
-                    // Add Address button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: _navigateToAddAddress,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.backgroundWhite,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(999),
+                      // Add Address button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: _navigateToAddAddress,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: AppColors.backgroundWhite,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 48,
+                              vertical: 16,
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 48,
-                            vertical: 16,
-                          ),
-                        ),
-                        child: Text(
-                          'Add Address',
-                          style: AppTextStyles.button.copyWith(
-                            fontSize: 14,
-                            color: AppColors.backgroundWhite,
+                          child: Text(
+                            'Add Address',
+                            style: AppTextStyles.button.copyWith(
+                              fontSize: 14,
+                              color: AppColors.backgroundWhite,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

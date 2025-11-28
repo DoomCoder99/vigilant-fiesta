@@ -27,6 +27,7 @@ class AppBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.transparent,
       margin: const EdgeInsets.only(bottom: AppSpacing.xxl), // 24px from bottom
       child: Container(
         width: 280.0, // Fixed width as per Figma (280px)

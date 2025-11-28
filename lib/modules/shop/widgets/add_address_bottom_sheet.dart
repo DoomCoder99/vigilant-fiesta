@@ -114,16 +114,8 @@ class _AddAddressBottomSheetState extends State<AddAddressBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Handle bar
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.textSecondary,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
+
+            const SizedBox(height: 10),
             // Header
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),

@@ -4,6 +4,7 @@ import '../../../core/theme/typography.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/utils/asset_helper.dart';
 import '../../../core/routes/app_routes.dart';
+import 'package:get/get.dart';
 
 /// Add Address Screen for first-time service booking
 /// 
@@ -86,226 +87,268 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Container(
-                height: 100,
-                color: AppColors.backgroundWhite,
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: Column(
-                  children: [
-                    const SizedBox(height: AppSpacing.md),
-                    // Top bar
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Back button
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.inputBorder),
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                            child: AssetHelper.loadImageOrIcon(
-                              assetPath: AssetPaths.iconArrowLeft,
-                              fallbackIcon: Icons.arrow_back,
-                              size: 16,
-                            ),
-                          ),
-                        ),
-
-                        // Title
-                        Text(
-                          'Set Address',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-
-                        // Empty space for balance
-                        const SizedBox(width: 36),
-                      ],
-                    ),
-                  ],
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        backgroundColor: AppColors.backgroundWhite,
+        elevation: 0,
+        leadingWidth: 45,
+        leading: Center(
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xffD6DEE8)),
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppColors.textPrimary,
+                  size: 18,
                 ),
               ),
+            ),
+          ),
+        ),
+        title: Text(
+          'Set address',
+          style: const TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
+      ),
 
-              // Location display
-              if (_selectedLocation != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                  child: Row(
-                    children: [
-                      AssetHelper.loadImageOrIcon(
-                        assetPath: AssetPaths.iconLocationOn,
-                        fallbackIcon: Icons.location_on,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 5),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _selectedLocation!,
-                              style: AppTextStyles.bodyMedium.copyWith(
-                                fontSize: 14,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            if (_selectedAddress != null)
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                // Container(
+                //   height: 100,
+                //   color: AppColors.backgroundWhite,
+                //   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                //   child: Column(
+                //     children: [
+                //       const SizedBox(height: AppSpacing.md),
+                //       // Top bar
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: [
+                //           // Back button
+                //           GestureDetector(
+                //             onTap: () => Navigator.of(context).pop(),
+                //             child: Container(
+                //               width: 36,
+                //               height: 36,
+                //               padding: const EdgeInsets.all(10),
+                //               decoration: BoxDecoration(
+                //                 border: Border.all(color: AppColors.inputBorder),
+                //                 borderRadius: BorderRadius.circular(28),
+                //               ),
+                //               child: AssetHelper.loadImageOrIcon(
+                //                 assetPath: AssetPaths.iconArrowLeft,
+                //                 fallbackIcon: Icons.arrow_back,
+                //                 size: 16,
+                //               ),
+                //             ),
+                //           ),
+                //
+                //           // Title
+                //           Text(
+                //             'Set Address',
+                //             style: AppTextStyles.bodyMedium.copyWith(
+                //               fontSize: 14,
+                //               fontWeight: FontWeight.w500,
+                //               color: AppColors.textPrimary,
+                //             ),
+                //           ),
+                //
+                //           // Empty space for balance
+                //           const SizedBox(width: 36),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
+                // Location display
+                SizedBox(height: AppSpacing.md,),
+                if (_selectedLocation != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    child: Row(
+                      children: [
+                        AssetHelper.loadImageOrIcon(
+                          assetPath: AssetPaths.iconLocationOn,
+                          fallbackIcon: Icons.location_on,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                               Text(
-                                _selectedAddress!,
-                                style: AppTextStyles.bodySmall.copyWith(
-                                  fontSize: 12,
+                                _selectedLocation!,
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  fontSize: 14,
                                   color: AppColors.textPrimary,
                                 ),
                               ),
-                          ],
+                              if (_selectedAddress != null)
+                                Text(
+                                  _selectedAddress!,
+                                  style: AppTextStyles.bodySmall.copyWith(
+                                    fontSize: 12,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+
+                const SizedBox(height: AppSpacing.xl),
+
+                // Detailed Address label
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Text(
+                    'Detailed Address',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.md),
+
+                // Address input fields
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Column(
+                    children: [
+                      _buildTextField(
+                        controller: _cityController,
+                        hintText: 'City',
+                      ),
+                      const SizedBox(height: 8),
+                      _buildTextField(
+                        controller: _streetController,
+                        hintText: 'Street',
+                      ),
+                      const SizedBox(height: 8),
+                      _buildTextField(
+                        controller: _landmarkController,
+                        hintText: 'Landmark',
+                      ),
+                      const SizedBox(height: 8),
+                      _buildTextField(
+                        controller: _houseController,
+                        hintText: 'House # / Apartment name / Floor',
                       ),
                     ],
                   ),
                 ),
 
-              const SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.xl),
 
-              // Detailed Address label
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: Text(
-                  'Detailed Address',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
+                // Save this address as label
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Text(
+                    'Save This Address As',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.md),
 
-              // Address input fields
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: Column(
-                  children: [
-                    _buildTextField(
-                      controller: _cityController,
-                      hintText: 'City',
-                    ),
-                    const SizedBox(height: 8),
-                    _buildTextField(
-                      controller: _streetController,
-                      hintText: 'Street',
-                    ),
-                    const SizedBox(height: 8),
-                    _buildTextField(
-                      controller: _landmarkController,
-                      hintText: 'Landmark',
-                    ),
-                    const SizedBox(height: 8),
-                    _buildTextField(
-                      controller: _houseController,
-                      hintText: 'House # / Apartment name / Floor',
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: AppSpacing.xl),
-
-              // Save this address as label
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: Text(
-                  'Save This Address As',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
+                // Address type chips
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Row(
+                    children: [
+                      _buildAddressTypeChip(
+                        label: 'Home',
+                        icon: AssetPaths.iconHomeServiceBooking,
+                        fallbackIcon: Icons.home,
+                      ),
+                      const SizedBox(width: 8),
+                      _buildAddressTypeChip(
+                        label: 'Work',
+                        icon: AssetPaths.iconBusinessCenter,
+                        fallbackIcon: Icons.work,
+                      ),
+                      const SizedBox(width: 8),
+                      _buildAddressTypeChip(
+                        label: 'Friends',
+                        icon: AssetPaths.iconGroups,
+                        fallbackIcon: Icons.group,
+                      ),
+                      const SizedBox(width: 8),
+                      _buildAddressTypeChip(
+                        label: 'Others',
+                        icon: AssetPaths.iconAddLocationAlt,
+                        fallbackIcon: Icons.location_on,
+                      ),
+                    ],
                   ),
                 ),
-              ),
 
-              const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: 48),
 
-              // Address type chips
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: Row(
-                  children: [
-                    _buildAddressTypeChip(
-                      label: 'Home',
-                      icon: AssetPaths.iconHomeServiceBooking,
-                      fallbackIcon: Icons.home,
-                    ),
-                    const SizedBox(width: 8),
-                    _buildAddressTypeChip(
-                      label: 'Work',
-                      icon: AssetPaths.iconBusinessCenter,
-                      fallbackIcon: Icons.work,
-                    ),
-                    const SizedBox(width: 8),
-                    _buildAddressTypeChip(
-                      label: 'Friends',
-                      icon: AssetPaths.iconGroups,
-                      fallbackIcon: Icons.group,
-                    ),
-                    const SizedBox(width: 8),
-                    _buildAddressTypeChip(
-                      label: 'Others',
-                      icon: AssetPaths.iconAddLocationAlt,
-                      fallbackIcon: Icons.location_on,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 48),
-
-              // Continue button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    onPressed: _continueToSelectSlot,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: AppColors.backgroundWhite,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(999),
+                // Continue button
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: _continueToSelectSlot,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.backgroundWhite,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 48,
+                          vertical: 16,
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 48,
-                        vertical: 16,
-                      ),
-                    ),
-                    child: Text(
-                      'Continue To Select Slot',
-                      style: AppTextStyles.button.copyWith(
-                        fontSize: 14,
-                        color: AppColors.backgroundWhite,
+                      child: Text(
+                        'Continue To Select Slot',
+                        style: AppTextStyles.button.copyWith(
+                          fontSize: 14,
+                          color: AppColors.backgroundWhite,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 32),
-            ],
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
         ),
       ),
@@ -316,40 +359,20 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     required TextEditingController controller,
     required String hintText,
   }) {
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppColors.backgroundWhite,
-        border: Border.all(color: AppColors.inputBorder),
-        borderRadius: BorderRadius.circular(8),
+    return TextField(
+      controller: controller,
+      style: AppTextStyles.bodySmall.copyWith(
+        fontSize: 12,
+        color: AppColors.textPrimary,
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              style: AppTextStyles.bodySmall.copyWith(
-                fontSize: 12,
-                color: AppColors.textPrimary,
-              ),
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: AppTextStyles.bodySmall.copyWith(
-                  fontSize: 12,
-                  color: AppColors.textTertiary,
-                ),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
-              ),
-            ),
-          ),
-          AssetHelper.loadImageOrIcon(
-            assetPath: AssetPaths.iconMic,
-            fallbackIcon: Icons.mic,
-            size: 16,
-          ),
-        ],
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: AppTextStyles.bodySmall.copyWith(
+          fontSize: 12,
+          color: AppColors.textTertiary,
+        ),
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.symmetric(horizontal: 12),
       ),
     );
   }

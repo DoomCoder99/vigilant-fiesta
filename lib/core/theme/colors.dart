@@ -20,7 +20,7 @@ class AppColors {
 
   // Background Colors
   /// White background
-  static const Color backgroundWhite = Color(0xFFFFFFFF);
+  static const Color backgroundWhite = Color(0xFFF5F5F5);
 
   // Semantic Colors
   /// Error color - Light red for OTP error borders (#fa9b9b)

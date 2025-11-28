@@ -23,7 +23,6 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
       ),
-
       // Elevated Button Theme
       // Figma specs: px-[48px] py-[16px], rounded-[28px]
       elevatedButtonTheme: ElevatedButtonThemeData(

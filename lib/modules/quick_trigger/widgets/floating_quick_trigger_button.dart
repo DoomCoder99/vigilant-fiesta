@@ -36,13 +36,13 @@ class FloatingQuickTriggerButton extends StatelessWidget {
       final spacingAboveNav = 16.0; // Space between button and nav bar
       
       return Positioned(
-        bottom: bottomNavMargin + navBarHeight + spacingAboveNav, // ~88px from bottom
-        right: screenWidth - navBarRightEdge + (buttonSize / 2), // Aligned with nav bar right edge, centered on button
+        bottom: 40,
+        right: 30,
         child: GestureDetector(
           onTap: () => controller.toggleOverlay(),
           child: Container(
-            width: 72,
-            height: 72,
+            width: 58,
+            height: 58,
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: BorderRadius.circular(36),
